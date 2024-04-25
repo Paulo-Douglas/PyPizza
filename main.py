@@ -15,7 +15,6 @@ while resposta != '0':
     print('|             0 - Sair                       |')
     print('----------------------------------------------')
     resposta = input("Escolha sua opção: ")
-
     if resposta == '1':
         print()
         print('----------------------------------------------')
@@ -24,12 +23,17 @@ while resposta != '0':
         print('| 1. Menu                                    |')
         print('| 2. Pedir                                   |')
         print('| 3. Promoções                               |')
-        print('| 4. Pizza Frango com Catupiry               |')
-        print('| 5. Pizza Calabresa                         |')
-        print('| 6. Pizza Vegetariana                       |')
-        print('| 7. Pizza Especial do Chef                  |')
         print('----------------------------------------------')
-        input("Tecle <ENTER> para continuar...")
+        resp = int(input('Escolha uma opção: '))
+        if resp == 1:
+            print()
+        print('----------------------------------------------')
+        print('|               Módulo Clientes              |')
+        print('----------------------------------------------')
+        print('| 1. Menu                                    |')
+        print('| 2. Pedir                                   |')
+        print('| 3. Promoções                               |')
+        print('----------------------------------------------')
     elif resposta == '4':
         print()
         print('----------------------------------------------')
