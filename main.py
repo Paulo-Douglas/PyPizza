@@ -30,12 +30,6 @@ while resposta != '0':
         print('| 7. Pizza Especial do Chef                  |')
         print('----------------------------------------------')
         input("Tecle <ENTER> para continuar...")
-    elif resposta == '3':
-        print()
-        print('----------------------------------------------')
-        print('|          Histórico de Pedidos              |')
-        print('----------------------------------------------')
-        input("Tecle <ENTER> para continuar...")
     elif resposta == '4':
         print()
         print('----------------------------------------------')
