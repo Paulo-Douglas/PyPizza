@@ -1,11 +1,11 @@
 import os
 
 #####################################
-#####   Projeto Pizzaria - V2   #####
+#####   Projeto Pizzaria - V3   #####
 #####################################
 
-resposta = ''
-while resposta != '0':
+op_prin = ''
+while op_prin != '0':
     os.system('clear')
     print('----------------------------------------------')
     print('|         Sistema de Gestão - Pizzaria       |')
@@ -16,25 +16,89 @@ while resposta != '0':
     print('|             4 - Sobre a Pizzaria           |')
     print('|             0 - Sair                       |')
     print('----------------------------------------------')
-    resposta = input("Escolha sua opção: ")
+    op_prin = input("Escolha sua opção: ")
     
-    if resposta == '1':
-        print()
-        print('----------------------------------------------')
-        print('|                  Clientes                  |')
-        print('----------------------------------------------')
-        print('|             1 - Login                      |')
-        print('|             2 - Menu                       |')
-        print('|             3 - Pedir                      |')
-        print('|             4 - Carrinho                   |')
-        print('|             5 - Histórico de Pedidos       |')
-        print('|             0 - Retornar ao Menu Principal |')
-        print('----------------------------------------------')
-        print()
-        resp2 = input("Escolha sua opção: ")
-        print()
-        input("Tecle <ENTER> para continuar...")
-    elif resposta == '2':
+    if op_prin == '1':
+        op_cliente = ''
+        while op_cliente !='0':
+            os.system('clear')
+            print()
+            print('----------------------------------------------')
+            print('|                   Clientes                 |')
+            print('----------------------------------------------')
+            print('|             1 - Cadastre - se              |')
+            print('|             2 - Exibir Dados               |')
+            print('|             3 - Alterar Dados              |')
+            print('|             4 - Excluir Cliente            |')
+            print('|             4 - Histórico de Pedidos       |')
+            print('|             0 - Retornar ao Menu Principal |')
+            print('----------------------------------------------')
+            print()
+            op_cliente = input("Escolha sua opção: ")
+            print()
+            if op_cliente == '1':
+                os.system('clear')
+                print()
+                print('----------------------------------------------')
+                print('|                  Cadastre - se             |')
+                print('----------------------------------------------')
+                print('| Nome   | Telefone   | Email   | Endereço   |')
+                print('----------------------------------------------')
+                print()
+                nome = input('Nome: ')
+                print()
+                fone = input('Telefone: ')
+                print()
+                email = input('Email: ')
+                print()
+                endereco = input('Endereço: ')
+                print()
+                print('Cadatro feito com sucesso!!')
+                input('Tecle <ENTER> para combinar...')
+            elif op_cliente == '2':
+                os.system('clear')
+                print()
+                print('----------------------------------------------')
+                print('|                  Exibir Dados              |')
+                print('----------------------------------------------')
+                print('| Nome   | Telefone   | Email   | Endereço   |')
+                print('----------------------------------------------')
+                print()
+                print('Nome: ')
+                print('Telefone: ')
+                print('Email: ')
+                print('Endereço: ')
+                print()
+                input('Tecle <ENTER> para combinar...')
+            elif op_cliente == '3':
+                os.system('clear')
+                print()
+                print('----------------------------------------------')
+                print('|                  Alterar Dados             |')
+                print('----------------------------------------------')
+                print('| Nome   | Telefone   | Email   | Endereço   |')
+                print('----------------------------------------------')
+                print()
+                nome = input('Nome: ')
+                print()
+                fone = input('Telefone: ')
+                print()
+                email = input('Email: ')
+                print()
+                endereco = input('Endereço: ')
+                print()
+                print('Dados alterados com sucesso!!')
+                input('Tecle <ENTER> para combinar...')
+            elif op_cliente == '4':
+                os.system('clear')
+                print('----------------------------------------------')
+                print('|                Excluir Cliente             |')
+                print('----------------------------------------------')
+                email = input('Email: ')
+                print()
+                print('Cliente excluido com sucesso!!')
+                input('Tecle <ENTER> para combinar...')
+    elif op_prin == '2':
         print()
         print('----------------------------------------------')
         print('|                Funcionários                |')
@@ -48,7 +112,7 @@ while resposta != '0':
         resp2 = input("Escolha sua opção: ")
         print()
         input("Tecle <ENTER> para continuar...")
-    elif resposta == '3':
+    elif op_prin == '3':
         print()
         print('----------------------------------------------')
         print('|                 Administração              |')
@@ -62,7 +126,7 @@ while resposta != '0':
         resp2 = input("Escolha sua opção: ")
         print()
         input("Tecle <ENTER> para continuar...")
-    elif resposta == '4':
+    elif op_prin == '4':
         print()
         print('----------------------------------------------')
         print('|            Sobre a Pizzaria                |')
