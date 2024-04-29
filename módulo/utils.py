@@ -7,22 +7,22 @@ def carrinho():
             "família": 29.00
         },
         "margherita": {
-            "pequena": 28.00,
-            "média": 30.00,
-            "grande": 32.00,
-            "família": 35.00
+            "pequena": 25.00,
+            "média": 23.00,
+            "grande": 27.00,
+            "família": 29.00
         },
         "quatro queijos": {
-            "pequena": 28.00,
-            "média": 30.00,
-            "grande": 32.00,
-            "família": 35.00
+            "pequena": 25.00,
+            "média": 23.00,
+            "grande": 27.00,
+            "família": 29.00
         },
         "frango com catupiry": {
-            "pequena": 28.00,
-            "média": 30.00,
-            "grande": 32.00,
-            "família": 35.00
+            "pequena": 25.00,
+            "média": 23.00,
+            "grande": 27.00,
+            "família": 29.00
         },
         "calabresa": {
             "pequena": 28.00,
@@ -49,28 +49,28 @@ def carrinho():
             "família": 35.00
         },
         "chocolate": {
-            "pequena": 28.00,
-            "média": 30.00,
-            "grande": 32.00,
-            "família": 35.00
+            "pequena": 20.00,
+            "média": 21.00,
+            "grande": 22.00,
+            "família": 24.00
         },
         "morango com nutella": {
-            "pequena": 28.00,
-            "média": 30.00,
-            "grande": 32.00,
-            "família": 35.00
+            "pequena": 20.00,
+            "média": 21.00,
+            "grande": 22.00,
+            "família": 24.00
         },
         "banana com canela": {
-            "pequena": 28.00,
-            "média": 30.00,
-            "grande": 32.00,
-            "família": 35.00
+            "pequena": 20.00,
+            "média": 21.00,
+            "grande": 22.00,
+            "família": 24.00
         },
         "romeu e julieta": {
-            "pequena": 28.00,
-            "média": 30.00,
-            "grande": 32.00,
-            "família": 35.00
+            "pequena": 20.00,
+            "média": 21.00,
+            "grande": 22.00,
+            "família": 24.00
         }
     }
     verificar = False
