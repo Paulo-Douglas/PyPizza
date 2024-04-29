@@ -18,7 +18,7 @@ while resposta != '0':
     print('----------------------------------------------')
     resposta = input("Escolha sua opção: ")
     
-    if resposta == 1:
+    if resposta == '1':
         print()
         print('----------------------------------------------')
         print('|                  Clientes                  |')
@@ -34,7 +34,7 @@ while resposta != '0':
         resp2 = input("Escolha sua opção: ")
         print()
         input("Tecle <ENTER> para continuar...")
-    elif resposta == 2:
+    elif resposta == '2':
         print()
         print('----------------------------------------------')
         print('|                Funcionários                |')
@@ -48,7 +48,7 @@ while resposta != '0':
         resp2 = input("Escolha sua opção: ")
         print()
         input("Tecle <ENTER> para continuar...")
-    elif resposta == 3:
+    elif resposta == '3':
         print()
         print('----------------------------------------------')
         print('|                 Administração              |')
