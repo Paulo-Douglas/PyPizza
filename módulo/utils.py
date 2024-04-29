@@ -1,4 +1,4 @@
-def carrinho():
+def pedido():
     menu_pizzas = {
         "pepperoni": {
             "pequena": 25.00,
@@ -73,8 +73,8 @@ def carrinho():
             "família": 24.00
         }
     }
-    verificar = False
-    while not verificar:
+    verificar = True
+    while verificar:
         opcao = input('Caro cliente, informe o número da pizza desejada (ou 0 para sair): ').lower()
         if opcao == '0':
             print('Obrigado por visitar nossa pizzaria. Volte sempre!')
@@ -90,6 +90,6 @@ def carrinho():
         preco_pizza = pizza_escolhida[tamanho]
         print(f"Pedido: {opcao.capitalize()} - Tamanho: {tamanho.capitalize()} - Valor: R${preco_pizza:.2f}")
         adicionar_outra = input("Você deseja adicionar outra pizza ao carrinho? (sim/não): ").lower()
-        if adicionar_outra == "não":
+        if adicionar_outra != 'sim':
             print("Obrigado por fazer seu pedido!")
-            break
+            verificar = False
