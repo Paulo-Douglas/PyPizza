@@ -1,3 +1,4 @@
+import módulo.utils as ut
 import os
 
 #####################################
@@ -131,7 +132,7 @@ while op_prin != '0':
         print('|-----------------------------------------------|')
         print('|          0 - Retornar ao Menu Principal       |')
         print('-------------------------------------------------')
-        pedido = input('Caro Cliente, infome a pizza desejada informando apenas números: ')
+        pedido = ut.pedido()
         
     elif op_prin == '4':
         print()
