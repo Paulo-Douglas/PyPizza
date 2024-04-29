@@ -1,7 +1,7 @@
 import os
 
 #####################################
-#####   Projeto Pizzaria - V3   #####
+#####   Projeto Pizzaria - V4   #####
 #####################################
 
 op_prin = ''
@@ -32,7 +32,6 @@ while op_prin != '0':
             print('|             2 - Exibir Dados               |')
             print('|             3 - Alterar Dados              |')
             print('|             4 - Excluir Cliente            |')
-            print('|             4 - Histórico de Pedidos       |')
             print('|             0 - Retornar ao Menu Principal |')
             print('----------------------------------------------')
             print()
