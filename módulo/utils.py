@@ -1,4 +1,4 @@
-def pedido():
+def carrinho():
     menu_pizzas = {
         "pepperoni": {
             "pequena": 25.00,
@@ -93,3 +93,21 @@ def pedido():
         if adicionar_outra != 'sim':
             print("Obrigado por fazer seu pedido!")
             verificar = False
+
+def validar_email(email):
+        if '@' in email and '.' in email.split('@')[1]:
+            return email
+        else:
+            return False
+
+def validar_numero(fone):
+    numero_limpo = ''.join(filter(str.isdigit, fone))  # Remover todos os caracteres que não são dígitos
+    if len(numero_limpo) == 10:  # Verificar se o número tem 10 dígitos (formato padrão no Brasil)
+        return True
+    elif len(numero_limpo) == 11 and (numero_limpo[0] == '0' or numero_limpo[0] == '1'): # Verificar se o número tem 11 dígitos (incluindo o DDD)
+        return True
+    elif len(numero_limpo) == 12 and (numero_limpo[0] == '0' and numero_limpo[1] == '1'): # Verificar se o número tem 12 dígitos (incluindo o DDD com o formato (DDD) 123456789)
+        return True
+    else:
+        print('O número informado é inválido. Por favor, informe um número válido')
+        return False
