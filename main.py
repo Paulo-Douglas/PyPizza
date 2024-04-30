@@ -1,10 +1,6 @@
 import módulo.utils as ut
 import os
 
-#####################################
-#####   Projeto Pizzaria - V4   #####
-#####################################
-
 op_prin = ''
 while op_prin != '0':
     os.system('clear')
@@ -13,9 +9,9 @@ while op_prin != '0':
     print('----------------------------------------------')
     print('|             1 - Clientes                   |')
     print('|             2 - Menu                       |')
-    print('|             4 - Funcionários               |')
-    print('|             5 - Administração              |')
-    print('|             6 - Sobre a Pizzaria           |')
+    print('|             3 - Funcionários               |')
+    print('|             4 - Administração              |')
+    print('|             5 - Sobre a Pizzaria           |')
     print('|             0 - Sair                       |')
     print('----------------------------------------------')
     op_prin = input("Escolha sua opção: ")
@@ -104,21 +100,21 @@ while op_prin != '0':
         print('-------------------------------------------------')
         print('|                     Menu                      |')
         print('-------------------------------------------------')
-        print('|               Pizzas Salgadas                 |')
+        print('|                Pizzas Salgadas                |')
         print('|-----------------------------------------------|')
         print('| 1. Pepperoni           | R$ 25,00 - Pequena   |')
         print('| 2. Margherita          | R$ 23,00 - média     |')
         print('| 3. Quatro Queijos      | R$ 27,00 - Grande    |')
         print('| 4. Frango com Catupiry | R$ 29,00 - Família   |')
         print('|-----------------------------------------------|')
-        print('|              Pizzas Especiais                 |')
+        print('|                Pizzas Especiais               |')
         print('|-----------------------------------------------|')
         print('| 5. Calabresa             | R$ 28,00 - Pequena |')
         print('| 6. Portuguesa            | R$ 30,00 - Média   |')
         print('| 7. Vegetariana           | R$ 32,00 - Grande  |')
         print('| 8. Carne Seca com Rúcula | R$ 35,00 - Família |')
         print('|-----------------------------------------------|')
-        print('|               Pizzas Doces                    |')
+        print('|                  Pizzas Doces                 |')
         print('|-----------------------------------------------|')
         print('| 9. Chocolate           | R$ 20,00 - Pequena   |')
         print('|10. Morango com Nutella | R$ 21,00 - Média     |')
@@ -133,21 +129,33 @@ while op_prin != '0':
         print('|          0 - Retornar ao Menu Principal       |')
         print('-------------------------------------------------')
         pedido = ut.pedido()
-        
     elif op_prin == '4':
-        print()
-        print('----------------------------------------------')
-        print('|                Funcionários                |')
-        print('----------------------------------------------')
-        print('|             1 - Login                      |')
-        print('|             2 - Controle de Pedidos        |')
-        print('|             3 - Estoque                    |')
-        print('|             0 - Retornar ao Menu Principal |')
-        print('----------------------------------------------')
-        print()
-        resp2 = input("Escolha sua opção: ")
-        print()
-        input("Tecle <ENTER> para continuar...")
+        op_func = ''
+        while op_func != '0':
+            os.system('clear')
+            print('----------------------------------------------')
+            print('|                Funcionários                |')
+            print('----------------------------------------------')
+            print('|             1 - Login                      |')
+            print('|             2 - Controle de Pedidos        |')
+            print('|             3 - Estoque                    |')
+            print('|             0 - Retornar ao Menu Principal |')
+            print('----------------------------------------------')
+            print()
+            op_func = input('Escolha uma das opções: ')
+            print()
+            if op_func == '1':  # só quem pode cadatrar novos funcionários são os adms
+                os.system('clear')
+                print('----------------------------------------------')
+                print('|                Funcionários                |')
+                print('----------------------------------------------')
+                print('| Email         | Senha         | Código     |')
+                print('----------------------------------------------')
+                email = input('Informe seu email: ')
+                senha = input('Informe sua senha: ')
+                codigo = input('Informe seu código de acesso: ')
+            if op_func == '2':
+                os.system('clear')
     elif op_prin == '5':
         print()
         print('----------------------------------------------')
