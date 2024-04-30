@@ -1,4 +1,4 @@
-import módulo.utils as ut
+import módulo.utils  as ut
 import os
 
 clientes = {}
@@ -57,7 +57,7 @@ while op_prin != '0':
                 print()
                 endereco = input('Endereço: ')
                 print()
-                clientes[nome] = [fone, email, endereco]
+                clientes[email] = [nome, fone, endereco]
                 print()
                 print(clientes)
                 print('Cadatro feito com sucesso!!')
@@ -70,11 +70,14 @@ while op_prin != '0':
                 print('----------------------------------------------')
                 print('| Nome   | Telefone   | Email   | Endereço   |')
                 print('----------------------------------------------')
-                print()
-                print('Nome: ', nome)
-                print('Telefone: ', fone)
-                print('Email: ', email)
-                print('Endereço: ', endereco)
+                email = input('Informe o seu email: ')
+                if email in clientes:
+                    print('Nome: ', clientes[email][0])
+                    print('Telefone: ', clientes[email][1])
+                    print('Email: ', email)
+                    print('Endereço: ', clientes[email][2])
+                else:
+                    print('O email informado é inexistencia')
                 print()
                 input('Tecle <ENTER> para combinar...')
             elif op_cliente == '3':
@@ -85,15 +88,16 @@ while op_prin != '0':
                 print('----------------------------------------------')
                 print('| Nome   | Telefone   | Email   | Endereço   |')
                 print('----------------------------------------------')
-                print()
-                nome = input('Nome: ')
-                print()
-                fone = input('Telefone: ')
-                print()
-                email = input('Email: ')
-                print()
-                endereco = input('Endereço: ')
-                print()
+                email = input('Informe o seu email: ')
+                if email in clientes:
+                    nome = input('Nome: ')
+                    print()
+                    fone = input('Telefone: ')
+                    print()
+                    endereco = input('Endereço: ')
+                    clientes[email] = [nome, fone, endereco]
+                else:
+                    print('O email éinexistente')
                 print('Dados alterados com sucesso!!')
                 input('Tecle <ENTER> para combinar...')
             elif op_cliente == '4':
@@ -102,6 +106,10 @@ while op_prin != '0':
                 print('|                Excluir Cliente             |')
                 print('----------------------------------------------')
                 email = input('Email: ')
+                if email in clientes:
+                    del clientes[email]
+                else:
+                    print('O email informado é inexistente')
                 print()
                 print('Cliente excluido com sucesso!!')
                 input('Tecle <ENTER> para combinar...')
