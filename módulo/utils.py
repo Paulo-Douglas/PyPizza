@@ -1,5 +1,4 @@
-def carrinho():
-    menu_pizzas = {
+menu_pizzas = {
         "pepperoni": {
             "pequena": 25.00,
             "média": 23.00,
@@ -73,30 +72,57 @@ def carrinho():
             "família": 24.00
         }
     }
-    
-    carrinho_pizzas = {}
-    
+
+def validar_opcao(opcao, menu_pizzas):
+    if opcao == '0':
+        return False
+    if opcao not in menu_pizzas:
+        print('Nome da pizza inválido. Por favor, informe uma pizza do nosso cardápio.')
+        return False
+    return True
+
+def validar_tamanho(opcao, tamanho, menu_pizzas):
+    pizza_escolhida = menu_pizzas[opcao]
+    if tamanho not in pizza_escolhida:
+        print('Tamanho de pizza inválido. Por favor, informe um tamanho válido.')
+        return False
+    return True
+
+def obter_preco(opcao, tamanho, menu_pizzas):
+    pizza_escolhida = menu_pizzas[opcao]
+    return pizza_escolhida[tamanho]
+
+def adicionar_ao_carrinho(opcao, tamanho, preco_pizza, carrinho):
+    pedido = {'opcao': opcao.capitalize(), 'tamanho': tamanho.capitalize(), 'preco': preco_pizza}
+    carrinho.append(pedido)
+    print(f"Pedido: {pedido['opcao']} - Tamanho: {pedido['tamanho']} - Valor: R${pedido['preco']:.2f}")
+
+def imprimir_recibo(carrinho):
+    print("Pedidos realizados:")
+    for pedido in carrinho:
+        print(f"Pedido: {pedido['opcao']} - Tamanho: {pedido['tamanho']} - Valor: R${pedido['preco']:.2f}")
+    print("Obrigado por fazer seu pedido!")
+
+def fazer_pedido():
+    carrinho = []
     verificar = True
     while verificar:
         opcao = input('Caro cliente, informe o nome da pizza desejada (ou 0 para sair): ').lower()
         if opcao == '0':
             break
-        if opcao not in menu_pizzas:
-            print('Nome da pizza  estar inválida. Por favor, informe uma pizza do nosso cardápio.')
+        if not validar_opcao(opcao, menu_pizzas):
             continue
-        pizza_escolhida = menu_pizzas[opcao]
+        
         tamanho = input('Informe o tamanho da sua pizza (pequena/média/grande/família): ').lower()
-        if tamanho not in pizza_escolhida:
-            print('Tamanho de pizza inválido. Por favor, informe um tamanho válido.')
+        if not validar_tamanho(opcao, tamanho, menu_pizzas):
             continue
-        preco_pizza = pizza_escolhida[tamanho]
-        print(f"Pedido: {opcao.capitalize()} - Tamanho: {tamanho.capitalize()} - Valor: R${preco_pizza:.2f}")
+        
+        preco_pizza = obter_preco(opcao, tamanho, menu_pizzas)
+        adicionar_ao_carrinho(opcao, tamanho, preco_pizza, carrinho)
+        
         adicionar_outra = input("Você deseja adicionar outra pizza ao carrinho? (sim/não): ").lower()
-        if adicionar_outra == 'sim':
-            
         if adicionar_outra != 'sim':
-            print("Obrigado por fazer seu pedido!")
-            verificar = False    
+            verificar = False
 
 def validar_numero(fone):
     telefone = ''.join(filter(str.isdigit, fone))  # Remover todos os caracteres que não são dígitos
