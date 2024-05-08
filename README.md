@@ -1,5 +1,5 @@
 <h1 align='center'>PyPizza</h1>
-<h2>👾 Sobre</h2>
+<h2>👾 Sobre:</h2>
 <p>Um Sistema de Gestão para uma Pizzaria. Projeto desenvolvido para o curso de Sistemas de Informação.</p>
 
 ## 🛠 **Tecnologias:**
