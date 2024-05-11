@@ -1,7 +1,15 @@
 import módulo.utils  as ut
+import pickle
 import os
 
 clientes = {}
+try:
+    arq_clientes = open("clientes.dat", "rb")
+    clientes = pickle.load(arq_clientes)
+except:
+    arq_clientes = open("clientes", "wb")
+    arq_clientes.close()
+
 cardapio = {
     "pizzas salgadas": {
         "pequena": 23.00,
@@ -22,6 +30,15 @@ cardapio = {
         "família": 24.00
     }
 }
+
+carrinho = {}
+try:
+    arq_carrinho = open("carrinho.dat", "rb")
+    carrinho = pickle.load(arq_carrinho)
+except:
+    arq_carrinho = open("carrinho", "wb")
+    arq_carrinho.close()
+
 funcionarios = {}
 
 ################################################################
@@ -52,9 +69,10 @@ def menu_clientes():
     print('|                  Clientes                  |')
     print('----------------------------------------------')
     print('|             1 - Cadastre - se              |')
-    print('|             2 - Exibir Dados               |')
-    print('|             3 - Alterar Dados              |')
-    print('|             4 - Excluir Cliente            |')
+    print('|             2 - Login                      |')
+    print('|             3 - Exibir Dados               |')
+    print('|             4 - Alterar Dados              |')
+    print('|             5 - Excluir Cliente            |')
     print('|             0 - Retornar ao Menu Principal |')
     print('----------------------------------------------')
     op_cliente = input("Escolha sua opção: ")
@@ -66,25 +84,23 @@ def cadatrar_clientes():
     print('----------------------------------------------')
     print('|                 Cadastre - se              |')
     print('----------------------------------------------')
-    print('| Nome   | Telefone   | Email   | Endereço   |')
+    print('| Nome   | Email   | Senha   | Endereço      |')
     print('----------------------------------------------')
     print()
     nome = input('Nome: ')
-    print()
-    fone = input('Telefone: ')
-    while not ut.validar_numero(fone):
-        fone = input('Telefone: ')
     print()
     email = input('Email: ')
     while not ut.validar_email(email):
         print("Por favor, insira um email válido.")
         email = input('Email: ')
     print()
+    senha = input('Senha: ')
+    print()
     endereco = input('Endereço: ')
     print()
-    clientes[email] = [nome, fone, endereco]
+    clientes[email] = [nome, senha, endereco]
     print()
-    print(clientes)
+    print(f'Nome - {nome} | Senha - {senha} | Email - {email} | Endereço - {endereco}')
     print('Cadatro feito com sucesso!!')
     input('Tecle <ENTER> para continuar...')
 
@@ -94,13 +110,13 @@ def exibir_dados():
     print('----------------------------------------------')
     print('|                 Exibir Dados               |')
     print('----------------------------------------------')
-    print('| Nome   | Telefone   | Email   | Endereço   |')
+    print('| Nome   | Email   | Senha   | Endereço      |')
     print('----------------------------------------------')
     email = input('Informe o seu email: ')
     if email in clientes:
         print('Nome: ', clientes[email][0])
-        print('Telefone: ', clientes[email][1])
         print('Email: ', email)
+        print('Senha: ', clientes[email][1])
         print('Endereço: ', clientes[email][2])
     else:
         print('O email informado é inexistencia')
@@ -113,20 +129,20 @@ def alterar_dados():
     print('----------------------------------------------')
     print('|                 Alterar Dados              |')
     print('----------------------------------------------')
-    print('| Nome   | Telefone   | Email   | Endereço   |')
+    print('| Nome   | Senha    | Email   | Endereço     |')
     print('----------------------------------------------')
     email = input('Informe o seu email: ')
     if email in clientes:
         nome = input('Nome: ')
         print()
-        fone = input('Telefone: ')
+        senha = input('Senha: ')
         print()
         endereco = input('Endereço: ')
-        clientes[email] = [nome, fone, endereco]
+        clientes[email] = [nome, senha, endereco]
     else:
         print('O email é inexistente')
     print('Dados alterados com sucesso!!')
-    input('Tecle <ENTER> para combinar...')
+    input('Tecle <ENTER> para continuar...')
 
 def excluir_cliente():
     os.system('clear')
@@ -144,7 +160,6 @@ def excluir_cliente():
 
 def menu_pedidos():
     os.system('clear')
-    print()
     print('----------------------------------------------')
     print('|                   Pedidos                  |')
     print('----------------------------------------------')
@@ -213,7 +228,7 @@ def menu_funcionario():
     op_funcio = input('Escolha sua opção: ')
     return op_funcio
 
-def login():
+def login_fucionarios():
     print('----------------------------------------------')
     print('|                Funcionários                |')
     print('----------------------------------------------')
@@ -275,8 +290,8 @@ while op_prin != '0':
             elif op_cliente == '3':
                 alterar_dados()
             elif op_cliente =='4':
-                excluir_cliente
-                
+                excluir_cliente()
+
     elif op_prin == '2':
         op_pedidos = ''
         while op_pedidos != '0':
@@ -293,3 +308,13 @@ while op_prin != '0':
     
     elif op_prin == '5':
         pizzaria()
+
+### Gravando os dados no arquivo
+
+arq_clientes = open('clientes.dat', 'wb')
+pickle.dump(clientes, arq_clientes)
+arq_clientes.close()
+
+arq_carrinho = open('carrinho', 'wb')
+pickle.dump(carrinho, arq_carrinho)
+arq_carrinho.close()
