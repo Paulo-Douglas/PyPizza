@@ -1,14 +1,29 @@
-import módulo.utils  as ut
 import pickle
 import os
+
+################################################################
+################################################################
+##########                DICIONARIOS                 ##########
+################################################################
+################################################################
 
 clientes = {}
 try:
     arq_clientes = open("clientes.dat", "rb")
     clientes = pickle.load(arq_clientes)
 except:
-    arq_clientes = open("clientes", "wb")
+    arq_clientes = open("clientes.dat", "wb")
     arq_clientes.close()
+
+carrinho = {}
+try:
+    arq_carrinho = open("carrinho.dat", "rb")
+    carrinho = pickle.load(arq_carrinho)
+except:
+    arq_carrinho = open("carrinho.dat", "wb")
+    arq_carrinho.close()
+
+funcionarios = {}
 
 cardapio = {
     "pizzas salgadas": {
@@ -31,15 +46,209 @@ cardapio = {
     }
 }
 
-carrinho = {}
-try:
-    arq_carrinho = open("carrinho.dat", "rb")
-    carrinho = pickle.load(arq_carrinho)
-except:
-    arq_carrinho = open("carrinho", "wb")
+menu_pizzas = {
+        "pepperoni": {
+            "pequena": cardapio["pizzas salgadas"]["pequena"],
+            "média": cardapio["pizzas salgadas"]["média"],
+            "grande": cardapio["pizzas salgadas"]["grande"],
+            "família": cardapio["pizzas salgadas"]["família"]
+        },
+        "margherita": {
+            "pequena": cardapio["pizzas salgadas"]["pequena"],
+            "média": cardapio["pizzas salgadas"]["média"],
+            "grande": cardapio["pizzas salgadas"]["grande"],
+            "família": cardapio["pizzas salgadas"]["família"]
+        },
+        "quatro queijos": {
+            "pequena": cardapio["pizzas salgadas"]["pequena"],
+            "média": cardapio["pizzas salgadas"]["média"],
+            "grande": cardapio["pizzas salgadas"]["grande"],
+            "família": cardapio["pizzas salgadas"]["família"]
+        },
+        "frango com catupiry": {
+            "pequena": cardapio["pizzas salgadas"]["pequena"],
+            "média": cardapio["pizzas salgadas"]["média"],
+            "grande": cardapio["pizzas salgadas"]["grande"],
+            "família": cardapio["pizzas salgadas"]["família"]
+        },
+        "calabresa": {
+            "pequena": cardapio["pizzas especiais"]["pequena"],
+            "média": cardapio["pizzas especiais"]["média"],
+            "grande": cardapio["pizzas especiais"]["grande"],
+            "família": cardapio["pizzas especiais"]["família"]
+        },
+        "portuguesa": {
+            "pequena": cardapio["pizzas especiais"]["pequena"],
+            "média": cardapio["pizzas especiais"]["média"],
+            "grande": cardapio["pizzas especiais"]["grande"],
+            "família": cardapio["pizzas especiais"]["família"]
+        },
+        "vegetariana": {
+            "pequena": cardapio["pizzas especiais"]["pequena"],
+            "média": cardapio["pizzas especiais"]["média"],
+            "grande": cardapio["pizzas especiais"]["grande"],
+            "família": cardapio["pizzas especiais"]["família"]
+        },
+        "carne seca com rúcula": {
+            "pequena": cardapio["pizzas especiais"]["pequena"],
+            "média": cardapio["pizzas especiais"]["média"],
+            "grande": cardapio["pizzas especiais"]["grande"],
+            "família": cardapio["pizzas especiais"]["família"]
+        },
+        "chocolate": {
+            "pequena": cardapio["pizzas doces"]["pequena"],
+            "média": cardapio["pizzas doces"]["média"],
+            "grande": cardapio["pizzas doces"]["grande"],
+            "família": cardapio["pizzas doces"]["família"]
+        },
+        "morango com nutella": {
+            "pequena": cardapio["pizzas doces"]["pequena"],
+            "média": cardapio["pizzas doces"]["média"],
+            "grande": cardapio["pizzas doces"]["grande"],
+            "família": cardapio["pizzas doces"]["família"]
+        },
+        "banana com canela": {
+            "pequena": cardapio["pizzas doces"]["pequena"],
+            "média": cardapio["pizzas doces"]["média"],
+            "grande": cardapio["pizzas doces"]["grande"],
+            "família": cardapio["pizzas doces"]["família"]
+        },
+        "romeu e julieta": {
+            "pequena": cardapio["pizzas doces"]["pequena"],
+            "média": cardapio["pizzas doces"]["média"],
+            "grande": cardapio["pizzas doces"]["grande"],
+            "família": cardapio["pizzas doces"]["família"]
+        }
+    }
+
+################################################################
+################################################################
+##########                F U N Ç Õ E S               ########## 
+##########            S E C U N D A R I A S           ##########
+################################################################
+################################################################
+
+def carregar_clientes():
+    clientes = {}
+    try:
+        arq_clientes = open("clientes.dat", "rb")
+        clientes = pickle.load(arq_clientes)
+        return clientes
+    except:
+        arq_clientes = open("clientes.dat", "wb")
+        arq_clientes.close()
+
+def cadrastar_cliente():
+    clientes = {}
+    arq_clientes = open("clientes.dat", "wb")
+    pickle.dump(clientes, arq_clientes)
+    arq_clientes.close()
+
+def validar_cpf(cpf):
+    cpf = ''.join(filter(str.isdigit, cpf))
+    if len(cpf) != 11:
+        return False
+    soma = 0
+    for indice in range(9):
+        soma += int(cpf[indice]) * (10 - indice)
+    resto = soma % 11
+    if resto < 2:
+        digito_verificador1 = 0
+    else:
+        digito_verificador1 = 11 - resto
+    if digito_verificador1 != int(cpf[9]):
+        return False
+    soma2 = 0
+    for indice in range(10):
+        soma2 += int(cpf[indice]) * (11 - indice)
+    resto2 = soma2 % 11
+    if resto2 < 2:
+        digito_verificador2 = 0
+    else:
+        digito_verificador2 = 11 - resto2
+    if digito_verificador2 != int(cpf[10]):
+        return False
+    return True
+
+def verificar_clientes(cpf):
+    verificar = True
+    while verificar:
+        if not validar_cpf(cpf):
+            print('CPF informado é inválido. Por Favor, informe outro')
+            cpf = input('Informe o CPF: ')
+        else:
+            clientes = carregar_clientes()
+            if cpf in clientes:
+                verificar = False
+            else:
+                print('Cliente não encontrado, cadastre-se!')
+                verificar = True
+
+def validar_opcao(opcao, menu_pizzas):
+    if opcao == '0':
+        return False
+    if opcao not in menu_pizzas:
+        print('Nome da pizza inválido. Por favor, informe uma pizza do nosso cardápio.')
+        return False
+    return True
+
+def validar_tamanho(opcao, tamanho, menu_pizzas):
+    pizza_escolhida = menu_pizzas[opcao]
+    if tamanho not in pizza_escolhida:
+        print('Tamanho de pizza inválido. Por favor, informe um tamanho válido.')
+        return False
+    return True
+
+def obter_preco(opcao, tamanho, menu_pizzas):
+    pizza_escolhida = menu_pizzas[opcao]
+    return pizza_escolhida[tamanho]
+
+def adicionar_carrinho(cpf, opcao, tamanho, preco_pizza, carrinho):
+    carrinho[cpf] = [opcao, tamanho, preco_pizza]
+    arq_carrinho = open("carrinho.dat", "wb")
+    pickle.dump(carrinho, arq_carrinho)
     arq_carrinho.close()
 
-funcionarios = {}
+def imprimir_recibo():
+    cpf = input('Caro cliente, informe seu CPF: ')
+    if validar_cpf(cpf):
+        if verificar_clientes(cpf):
+            try:
+                with open("carrinho.dat", "rb") as arq_carrinho:
+                    carrinho = pickle.load(arq_carrinho)
+                    if cpf in carrinho:
+                        print('Esse foi seu pedido:')
+                        for item in carrinho[cpf]:
+                            print(f'Pizza: {item[0]}, Tamanho: {item[1]}, Preço: R$ {item[2]:.2f}')
+                    else:
+                        print('Nenhum pedido encontrado para este CPF.')
+            except (FileNotFoundError, EOFError):
+                print('Nenhum pedido encontrado.')
+        else:
+            print('CPF não cadastrado.')
+    else:
+        print('CPF inválido.')
+
+def fazer_pedido():
+    cpf = input('Caro cliente, para continuar digite seu cpf: ')
+    if verificar_clientes(cpf):
+        verificar = True
+        while verificar:
+            opcao = input('Caro cliente, informe o nome da pizza desejada (ou 0 para sair): ').lower()
+            if opcao == '0':
+                return
+            if not validar_opcao(opcao, menu_pizzas):
+                continue
+            tamanho = input('Informe o tamanho da sua pizza (pequena/média/grande/família): ').lower()
+            if not validar_tamanho(opcao, tamanho, menu_pizzas):
+                continue
+            preco_pizza = obter_preco(opcao, tamanho, menu_pizzas)
+            adicionar_carrinho(cpf, opcao, tamanho, preco_pizza, carrinho)
+            adicionar_outra = input("Você deseja adicionar outra pizza ao carrinho? (sim/não): ").lower()
+            if adicionar_outra != 'sim':
+                verificar = False
+    else:
+        print('CPF não cadrastado, cadraste - se e faça seu pedido!')
 
 ################################################################
 ################################################################
@@ -69,7 +278,6 @@ def menu_clientes():
     print('|                  Clientes                  |')
     print('----------------------------------------------')
     print('|             1 - Cadastre - se              |')
-    print('|             2 - Login                      |')
     print('|             3 - Exibir Dados               |')
     print('|             4 - Alterar Dados              |')
     print('|             5 - Excluir Cliente            |')
@@ -82,25 +290,28 @@ def cadatrar_clientes():
     os.system('clear')
     print()
     print('----------------------------------------------')
-    print('|                 Cadastre - se              |')
+    print('|                Cadastre - se               |')
     print('----------------------------------------------')
-    print('| Nome   | Email   | Senha   | Endereço      |')
+    print('| Nome   | CPF     | Senha   | Endereço      |')
     print('----------------------------------------------')
     print()
     nome = input('Nome: ')
     print()
-    email = input('Email: ')
-    while not ut.validar_email(email):
-        print("Por favor, insira um email válido.")
-        email = input('Email: ')
+    cpf = input('CPF: ')
+    while not validar_cpf(cpf):
+        print("Por favor, insira um cpf válido.")
+        cpf = input('CPF: ')
     print()
     senha = input('Senha: ')
     print()
     endereco = input('Endereço: ')
     print()
-    clientes[email] = [nome, senha, endereco]
+    clientes[cpf] = [nome, senha, endereco]
+    arq_clientes = open('clientes.dat', 'wb')
+    pickle.dump(clientes, arq_clientes)
+    arq_clientes.close()
     print()
-    print(f'Nome - {nome} | Senha - {senha} | Email - {email} | Endereço - {endereco}')
+    print(f'Nome - {nome} | CPF - {cpf} | Senha - {senha} | Endereço - {endereco}')
     print('Cadatro feito com sucesso!!')
     input('Tecle <ENTER> para continuar...')
 
@@ -110,16 +321,16 @@ def exibir_dados():
     print('----------------------------------------------')
     print('|                 Exibir Dados               |')
     print('----------------------------------------------')
-    print('| Nome   | Email   | Senha   | Endereço      |')
+    print('| Nome   | CPF     | Senha   | Endereço      |')
     print('----------------------------------------------')
-    email = input('Informe o seu email: ')
-    if email in clientes:
-        print('Nome: ', clientes[email][0])
-        print('Email: ', email)
-        print('Senha: ', clientes[email][1])
-        print('Endereço: ', clientes[email][2])
+    cpf = input('Informe o seu CPF: ')
+    if cpf in clientes:
+        print('Nome: ', clientes[cpf][0])
+        print('Email: ', cpf)
+        print('Senha: ', clientes[cpf][1])
+        print('Endereço: ', clientes[cpf][2])
     else:
-        print('O email informado é inexistencia')
+        print('O cpf informado é inexistencia')
     print()
     input('Tecle <ENTER> para continuar...')
 
@@ -129,18 +340,18 @@ def alterar_dados():
     print('----------------------------------------------')
     print('|                 Alterar Dados              |')
     print('----------------------------------------------')
-    print('| Nome   | Senha    | Email   | Endereço     |')
+    print('| Nome   | CPF     | Senha   | Endereço      |')
     print('----------------------------------------------')
-    email = input('Informe o seu email: ')
-    if email in clientes:
+    cpf = input('Informe o seu email: ')
+    if cpf in clientes:
         nome = input('Nome: ')
         print()
         senha = input('Senha: ')
         print()
         endereco = input('Endereço: ')
-        clientes[email] = [nome, senha, endereco]
+        clientes[cpf] = [nome, senha, endereco]
     else:
-        print('O email é inexistente')
+        print('O cpf é inexistente')
     print('Dados alterados com sucesso!!')
     input('Tecle <ENTER> para continuar...')
 
@@ -149,11 +360,11 @@ def excluir_cliente():
     print('----------------------------------------------')
     print('|                Excluir Cliente             |')
     print('----------------------------------------------')
-    email = input('Email: ')
-    if email in clientes:
-        del clientes[email]
+    cpf = input('Email: ')
+    if cpf in clientes:
+        del clientes[cpf]
     else:
-        print('O email informado é inexistente')
+        print('O cpf informado é inexistente')
         print()
     print('Cliente excluido com sucesso!!')
     input('Tecle <ENTER> para combinar...')
@@ -166,6 +377,7 @@ def menu_pedidos():
     print('|             1 - Cardápio                   |')
     print('|             2 - Carrinho                   |')
     print('|             3 - Promoções                  |')
+    print('|             4 - Feedbacks                  |')
     print('|             0 - Retornar ao Menu Principal |')
     print('----------------------------------------------')
     op_pedidos = input("Escolha sua opção: ")
@@ -205,7 +417,7 @@ def menu():
     print('|-----------------------------------------------|')
     print('|          0 - Retornar ao Menu Principal       |')
     print('-------------------------------------------------')
-    ut.fazer_pedido()
+    fazer_pedido()
 
 def cesto():
     os.system('clear')
@@ -213,7 +425,7 @@ def cesto():
     print('----------------------------------------------')
     print('|                  Carrinho                  |')
     print('----------------------------------------------')
-    ut.imprimir_recibo()
+    imprimir_recibo()
 
 def menu_funcionario():
     os.system('clear')
@@ -234,15 +446,6 @@ def login_fucionarios():
     print('----------------------------------------------')
     print('| Email         | Senha         | Código     |')
     print('----------------------------------------------')
-    email = input('Informe seu email: ')
-    while not ut.validar_email(email):
-        print("Por favor, insira um email válido.")
-        email = input('Email: ')
-    senha = input('Informe sua senha: ')
-    print()
-    codigo = input('Informe seu código de acesso: ')
-    print()
-    clientes[email] = [senha, codigo]
 
 def administracao():
     print()
@@ -256,6 +459,7 @@ def administracao():
     print('----------------------------------------------')
     print()
     op_adm = input("Escolha sua opção: ")
+    return op_adm
 
 def pizzaria():
     print()
@@ -300,6 +504,8 @@ while op_prin != '0':
                 menu()
             elif op_pedidos == '2':
                 cesto()
+            elif op_pedidos == '3':
+                print('oi')
     
     elif op_prin == '4':
         op_adm = ''
@@ -309,12 +515,3 @@ while op_prin != '0':
     elif op_prin == '5':
         pizzaria()
 
-### Gravando os dados no arquivo
-
-arq_clientes = open('clientes.dat', 'wb')
-pickle.dump(clientes, arq_clientes)
-arq_clientes.close()
-
-arq_carrinho = open('carrinho', 'wb')
-pickle.dump(carrinho, arq_carrinho)
-arq_carrinho.close()

@@ -1,8 +1,46 @@
 import pickle
+import os
+
+################################################################
+################################################################
+##########                DICIONARIOS                 ##########
+################################################################
+################################################################
+
+clientes = {}
+try:
+    arq_clientes = open("clientes.dat", "rb")
+    clientes = pickle.load(arq_clientes)
+except:
+    arq_clientes = open("clientes", "wb")
+    arq_clientes.close()
+
+funcionarios = {}
+
+cardapio = {
+    "pizzas salgadas": {
+        "pequena": 23.00,
+        "média": 25.00,
+        "grande": 27.00,
+        "família": 29.00
+    }, 
+    "pizzas especiais": {
+        "pequena": 28.00,
+        "média": 30.00,
+        "grande": 32.00,
+        "família": 35.00
+    },
+    "pizzas doces": {
+        "pequena": 20.00,
+        "média": 21.00,
+        "grande": 22.00,
+        "família": 24.00
+    }
+}
 
 menu_pizzas = {
         "pepperoni": {
-            "pequena": 25.00,
+            "pequena": cardapio["pizzas salgadas"]["pequena"],
             "média": 23.00,
             "grande": 27.00,
             "família": 29.00
@@ -75,66 +113,72 @@ menu_pizzas = {
         }
     }
 
-def validar_opcao(opcao, menu_pizzas):
-    if opcao == '0':
+################################################################
+################################################################
+##########                F U N Ç Õ E S               ########## 
+##########            S E C U N D A R I A S           ##########
+################################################################
+################################################################
+
+def validar_cpf(cpf):
+    cpf = ''.join(filter(str.isdigit, cpf))
+    if len(cpf) != 11:
         return False
-    if opcao not in menu_pizzas:
-        print('Nome da pizza inválido. Por favor, informe uma pizza do nosso cardápio.')
-        return False
-    return True
-
-def validar_tamanho(opcao, tamanho, menu_pizzas):
-    pizza_escolhida = menu_pizzas[opcao]
-    if tamanho not in pizza_escolhida:
-        print('Tamanho de pizza inválido. Por favor, informe um tamanho válido.')
-        return False
-    return True
-
-def obter_preco(opcao, tamanho, menu_pizzas):
-    pizza_escolhida = menu_pizzas[opcao]
-    return pizza_escolhida[tamanho]
-
-def adicionar_ao_carrinho(opcao, tamanho, preco_pizza, carrinho):
-    pedido = {'opcao': opcao.capitalize(), 'tamanho': tamanho.capitalize(), 'preco': preco_pizza}
-    carrinho.append(pedido)
-    print(f"Pedido: {pedido['opcao']} - Tamanho: {pedido['tamanho']} - Valor: R${pedido['preco']:.2f}")
-
-def imprimir_recibo(carrinho):
-    print("Pedidos realizados:")
-    for pedido in carrinho:
-        print(f"Pedido: {pedido['opcao']} - Tamanho: {pedido['tamanho']} - Valor: R${pedido['preco']:.2f}")
-    print("Obrigado por fazer seu pedido!")
-
-def fazer_pedido():
-    carrinho = []
-    verificar = True
-    while verificar:
-        opcao = input('Caro cliente, informe o nome da pizza desejada (ou 0 para sair): ').lower()
-        if opcao == '0':
-            break
-        if not validar_opcao(opcao, menu_pizzas):
-            continue
-        
-        tamanho = input('Informe o tamanho da sua pizza (pequena/média/grande/família): ').lower()
-        if not validar_tamanho(opcao, tamanho, menu_pizzas):
-            continue
-        
-        preco_pizza = obter_preco(opcao, tamanho, menu_pizzas)
-        adicionar_ao_carrinho(opcao, tamanho, preco_pizza, carrinho)
-        
-        adicionar_outra = input("Você deseja adicionar outra pizza ao carrinho? (sim/não): ").lower()
-        if adicionar_outra != 'sim':
-            verificar = False
-
-def validar_numero(fone):
-    telefone = ''.join(filter(str.isdigit, fone))  # Remover todos os caracteres que não são dígitos
-    if len(telefone) == 10 or len(telefone) == 11 or len(telefone) == 12:
-        return True
+    soma = 0
+    for indice in range(9):
+        soma += int(cpf[indice]) * (10 - indice)
+    resto = soma % 11
+    if resto < 2:
+        digito_verificador1 = 0
     else:
+        digito_verificador1 = 11 - resto
+    if digito_verificador1 != int(cpf[9]):
         return False
+    soma2 = 0
+    for indice in range(10):
+        soma2 += int(cpf[indice]) * (11 - indice)
+    resto2 = soma2 % 11
+    if resto2 < 2:
+        digito_verificador2 = 0
+    else:
+        digito_verificador2 = 11 - resto2
+    if digito_verificador2 != int(cpf[10]):
+        return False
+    return True
 
-def validar_email(email):
-        if '@' in email and '.' in email.split('@')[1]:
-            return email
-        else:
-            return False
+################################################################
+################################################################
+##########               F U N Ç Õ E S                ##########
+################################################################
+################################################################
+
+def menu_principal():
+    os.system('clear')
+    print('----------------------------------------------')
+    print('|         Sistema de Gestão - Pizzaria       |')
+    print('----------------------------------------------')
+    print('|             1 - Clientes                   |')
+    print('|             2 - Pedidos                    |')
+    print('|             3 - Funcionários               |')
+    print('|             4 - Administração              |')
+    print('|             5 - Sobre a Pizzaria           |')
+    print('|             0 - Sair                       |')
+    print('----------------------------------------------')
+    op_prin = input("Escolha sua opção: ")
+    return op_prin
+
+def menu_clientes():
+    os.system('clear')
+    print()
+    print('----------------------------------------------')
+    print('|                  Clientes                  |')
+    print('----------------------------------------------')
+    print('|             1 - Cadastre - se              |')
+    print('|             2 - Login                      |')
+    print('|             3 - Exibir Dados               |')
+    print('|             4 - Alterar Dados              |')
+    print('|             5 - Excluir Cliente            |')
+    print('|             0 - Retornar ao Menu Principal |')
+    print('----------------------------------------------')
+    op_cliente = input("Escolha sua opção: ")
+    return op_cliente
