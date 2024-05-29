@@ -128,6 +128,9 @@ menu_pizzas = {
 ################################################################
 ################################################################
 
+def clear_screen():
+    os.system('clear || cls')
+
 def carregar_clientes():
     clientes = {}
     try:
@@ -272,7 +275,7 @@ def menu_principal():
     return op_prin
 
 def menu_clientes():
-    os.system('clear')
+    clear_screen()
     print()
     print('----------------------------------------------')
     print('|                  Clientes                  |')
@@ -286,8 +289,8 @@ def menu_clientes():
     op_cliente = input("Escolha sua opção: ")
     return op_cliente
 
-def cadatrar_clientes():
-    os.system('clear')
+def cadastrar_clientes():
+    clear_screen()
     print()
     print('----------------------------------------------')
     print('|                Cadastre - se               |')
@@ -306,18 +309,14 @@ def cadatrar_clientes():
     print()
     endereco = input('Endereço: ')
     print()
-    clientes[cpf] = [nome, senha, endereco]
-    arq_clientes = open('clientes.dat', 'wb')
-    pickle.dump(clientes, arq_clientes)
-    arq_clientes.close()
-    print()
+    cliente = clientes[cpf] = [nome, senha, endereco]
+    cadastrar_cliente(cliente)
     print(f'Nome - {nome} | CPF - {cpf} | Senha - {senha} | Endereço - {endereco}')
     print('Cadatro feito com sucesso!!')
     input('Tecle <ENTER> para continuar...')
 
 def exibir_dados():
-    os.system('clear')
-    print()
+    clear_screen()
     print('----------------------------------------------')
     print('|                 Exibir Dados               |')
     print('----------------------------------------------')
@@ -335,7 +334,7 @@ def exibir_dados():
     input('Tecle <ENTER> para continuar...')
 
 def alterar_dados():
-    os.system('clear')
+    clear_screen()
     print()
     print('----------------------------------------------')
     print('|                 Alterar Dados              |')
@@ -356,11 +355,11 @@ def alterar_dados():
     input('Tecle <ENTER> para continuar...')
 
 def excluir_cliente():
-    os.system('clear')
+    clear_screen()
     print('----------------------------------------------')
     print('|                Excluir Cliente             |')
     print('----------------------------------------------')
-    cpf = input('Email: ')
+    cpf = input('Cpf: ')
     if cpf in clientes:
         del clientes[cpf]
     else:
