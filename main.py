@@ -193,6 +193,12 @@ def get_cpf():
             continue
         return cpf
 
+def get_endereco():
+    verificar = True
+    while verificar:
+        endereco = input('Informe seu endereço: ')
+        return endereco.title()
+
 def verificar_clientes(cpf):
     verificar = True
     while verificar:
