@@ -181,6 +181,18 @@ def validar_cpf(cpf):
 def verificar_cpf(cpf):
     return cpf in clientes
 
+def get_cpf():
+    verificar = True
+    while verificar:
+        cpf = input('Informe seu CPF: ')
+        if not validar_cpf(cpf):
+            print('O CPF informado não é válido. Por favor, informe um novo CPF.')
+            continue
+        if verificar_cpf(cpf):
+            print('O CPF informado já está cadastrado no nosso sistema. Por favor, informe um novo CPF.')
+            continue
+        return cpf
+
 def verificar_clientes(cpf):
     verificar = True
     while verificar:
