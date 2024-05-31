@@ -140,6 +140,18 @@ def salvar_clientes():
     pickle.dump(clientes, arq_clientes)
     arq_clientes.close()
 
+def get_name():
+    while True:
+        nome = input('Informe seu nome: ')
+        if all(char.isalpha() or char.isspace() for char in nome):
+            num_letras = sum(char.isalpha() for char in nome)
+            if num_letras >= 4:
+                return nome.title()
+            else:
+                print('O nome informado deve conter pelo menos 4 letras.')
+        else:
+            print('O nome informado é inválido. Informe um nome que possua somente letras e espaços!')
+
 def validar_cpf(cpf):
     cpf = ''.join(filter(str.isdigit, cpf))
     if len(cpf) != 11:
