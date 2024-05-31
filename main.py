@@ -373,25 +373,20 @@ def cadastrar_clientes():
     print('----------------------------------------------')
     print('|                Cadastre - se               |')
     print('----------------------------------------------')
-    print('| Nome   | CPF     | Senha   | Endereço      |')
+    print('|      Nome      |    CPF    |    Endereço   |')
     print('----------------------------------------------')
     print()
-    nome = input('Nome: ')
+    nome = get_name()
     print()
-    cpf = input('CPF: ')
-    while not validar_cpf(cpf):
-        print("Por favor, insira um cpf válido.")
-        cpf = input('CPF: ')
+    cpf = get_cpf()
     print()
-    senha = input('Senha: ')
+    endereco = get_endereco()
+    clientes[cpf] = [nome, endereco]
     print()
-    endereco = input('Endereço: ')
-    print()
-    cliente = clientes[cpf] = [nome, senha, endereco]
-    cadastrar_cliente(cliente)
-    print(f'Nome - {nome} | CPF - {cpf} | Senha - {senha} | Endereço - {endereco}')
+    print(f'Nome - {nome} | CPF - {cpf} | Endereço - {endereco}')
     print('Cadatro feito com sucesso!!')
     input('Tecle <ENTER> para continuar...')
+    salvar_clientes()
 
 def exibir_dados():
     clear_screen()
