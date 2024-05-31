@@ -9,12 +9,6 @@ import os
 ################################################################
 
 clientes = {}
-try:
-    arq_clientes = open("clientes.dat", "rb")
-    clientes = pickle.load(arq_clientes)
-except:
-    arq_clientes = open("clientes.dat", "wb")
-    arq_clientes.close()
 
 carrinho = {}
 try:
