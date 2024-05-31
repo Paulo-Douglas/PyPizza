@@ -135,8 +135,7 @@ def carregar_clientes():
         arq_clientes = open("clientes.dat", "wb")
         pickle.dump(clientes, arq_clientes)
 
-def cadastrar_cliente(clientes):
-    clientes = {}
+def salvar_clientes():
     arq_clientes = open("clientes.dat", "wb")
     pickle.dump(clientes, arq_clientes)
     arq_clientes.close()
