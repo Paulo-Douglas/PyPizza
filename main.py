@@ -576,6 +576,8 @@ def pizzaria():
 ################################################################
 ################################################################
 
+carregar_clientes()
+
 op_prin = ''
 while op_prin != '0':
     op_prin = menu_principal()  # Aqui deve ser chamado menu_principal(), não menu_clientes()
