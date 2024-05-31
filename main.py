@@ -199,19 +199,21 @@ def get_endereco():
         endereco = input('Informe seu endereço: ')
         return endereco.title()
 
-def verificar_clientes(cpf):
-    verificar = True
-    while verificar:
-        if not validar_cpf(cpf):
-            print('CPF informado é inválido. Por Favor, informe outro')
-            cpf = input('Informe o CPF: ')
-        else:
-            clientes = carregar_clientes()
-            if cpf in clientes:
-                verificar = False
-            else:
-                print('Cliente não encontrado, cadastre-se!')
-                verificar = True
+def chamar_dados(cpf, clientes):
+    nome = clientes[cpf][0]
+    endereco = clientes[cpf][1]
+    
+    nome_quebrado = textwrap.fill(nome, width=45)
+    endereco_quebrado = textwrap.fill(endereco, width=64)
+    
+    linhas_nome = nome_quebrado.split('\n')
+    linhas_endereco = endereco_quebrado.split('\n')
+    
+    max_linhas = max(len(linhas_nome), len(linhas_endereco))
+    for i in range(max_linhas):
+        nome_final = linhas_nome[i] if i < len(linhas_nome) else ''
+        endereco_final = linhas_endereco[i] if i < len(linhas_endereco) else ''
+    return nome_final, endereco_final
 
 def validar_opcao(opcao, menu_pizzas):
     if opcao == '0':
