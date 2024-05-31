@@ -178,6 +178,9 @@ def validar_cpf(cpf):
         return False
     return True
 
+def verificar_cpf(cpf):
+    return cpf in clientes
+
 def verificar_clientes(cpf):
     verificar = True
     while verificar:
