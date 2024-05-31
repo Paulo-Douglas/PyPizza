@@ -450,14 +450,22 @@ def excluir_cliente():
     print('----------------------------------------------')
     print('|                Excluir Cliente             |')
     print('----------------------------------------------')
-    cpf = input('Cpf: ')
+    cpf = input('Informe seu cpf: ')
     if cpf in clientes:
-        del clientes[cpf]
+        clear_screen()
+        nome, endereco = chamar_dados(cpf, clientes)
+        print('|---------------------------------------------------------------------------------------------------------------------------------|')
+        print('|                                                   Dados Cliente                                                                 |')
+        print('|---------------------------------------------------------------------------------------------------------------------------------|')
+        print('|                    Nome                     |       CPF       |                            Endereço                             |')
+        print('|---------------------------------------------------------------------------------------------------------------------------------|')
+        print('|{:^45}'.format(nome), end='')
+        print('|{:^17}'.format(cpf), end='')
+        print('|{:^64}'.format(endereco), '|')
+        print('|---------------------------------------------------------------------------------------------------------------------------------|')
+        del_cliente(cpf)
     else:
-        print('O cpf informado é inexistente')
-        print()
-    print('Cliente excluido com sucesso!!')
-    input('Tecle <ENTER> para combinar...')
+        print('O cpf informado não está cadastrado no nosso sistema.')
 
 def menu_pedidos():
     os.system('clear')
