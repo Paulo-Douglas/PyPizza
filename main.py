@@ -393,16 +393,33 @@ def exibir_dados():
     print('----------------------------------------------')
     print('|                 Exibir Dados               |')
     print('----------------------------------------------')
-    print('| Nome   | CPF     | Senha   | Endereço      |')
-    print('----------------------------------------------')
-    cpf = input('Informe o seu CPF: ')
+    cpf = input('Informe seu cpf: ')
     if cpf in clientes:
-        print('Nome: ', clientes[cpf][0])
-        print('Email: ', cpf)
-        print('Senha: ', clientes[cpf][1])
-        print('Endereço: ', clientes[cpf][2])
+        clear_screen()
+        print('|---------------------------------------------------------------------------------------------------------------------------------|')
+        print('|                                                   Dados Cliente                                                                 |')
+        print('|---------------------------------------------------------------------------------------------------------------------------------|')
+        print('|                    Nome                     |       CPF       |                            Endereço                             |')
+        print('|---------------------------------------------------------------------------------------------------------------------------------|')
+        nome = clientes[cpf][0]
+        endereco = clientes[cpf][1]
+        
+        nome_quebrado = textwrap.fill(nome, width=45)
+        endereco_quebrado = textwrap.fill(endereco, width=64)
+        
+        linhas_nome = nome_quebrado.split('\n')
+        linhas_endereco = endereco_quebrado.split('\n')
+        
+        max_linhas = max(len(linhas_nome), len(linhas_endereco))
+        for i in range(max_linhas):
+            nome_final = linhas_nome[i] if i < len(linhas_nome) else ''
+            endereco_final = linhas_endereco[i] if i < len(linhas_endereco) else ''
+        print('|{:^45}'.format(nome_final), end='')
+        print('|{:^17}'.format(cpf), end='')
+        print('|{:^64}'.format(endereco_final), '|')
+        print('|---------------------------------------------------------------------------------------------------------------------------------|')
     else:
-        print('O cpf informado é inexistencia')
+        print('O cpf informado não está cadastrado no nosso sistema')
     print()
     input('Tecle <ENTER> para continuar...')
 
