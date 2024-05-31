@@ -614,3 +614,4 @@ while op_prin != '0':
     elif op_prin == '5':
         pizzaria()
 
+salvar_clientes()
