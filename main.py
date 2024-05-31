@@ -215,6 +215,39 @@ def chamar_dados(cpf, clientes):
         endereco_final = linhas_endereco[i] if i < len(linhas_endereco) else ''
     return nome_final, endereco_final
 
+def alt_decisao(cpf):
+    alternativas = ['nome', 'cpf', 'endereço', 'endereco']
+    resposta = ['s', 'sim', 'n', 'nao', 'não']
+    verificar = True
+    while verificar:
+        decisao = input('Qual dado você deseja alterar? - Tecle 0 caso não queira fazer alteração: ').lower()
+        if decisao == '0':
+            break
+        elif decisao in alternativas:
+            if decisao == 'nome':
+                nome = get_name()
+                clientes[cpf][0] = nome
+                print('Nome alterado com sucesso.')
+            elif decisao == 'cpf':
+                novo_cpf = get_cpf()
+                clientes[cpf] = novo_cpf
+                print('O CPF foi alterado com sucesso.')
+            else:
+                endereco = get_endereco()
+                clientes[cpf][1] = endereco
+                print('O endereço foi alterado com sucesso.')
+        else:
+            print('Dado informado não existe. Escolha entre: NOME, CPF e ENDEREÇO.')
+            continue
+            
+        resp = input('Deseja fazer uma nova alteração (sim/não) ? ').lower()
+        if resp not in resposta:
+            print('Resposta inválida. Responda com somente SIM ou NÃO.')
+            continue
+        if resp == 'n' or resp == 'nao' or resp == 'não':
+            print('Alterações feitas com sucesso!!')
+            verificar = False
+
 def validar_opcao(opcao, menu_pizzas):
     if opcao == '0':
         return False
