@@ -425,24 +425,25 @@ def exibir_dados():
 
 def alterar_dados():
     clear_screen()
-    print()
     print('----------------------------------------------')
-    print('|                 Alterar Dados              |')
+    print('|                Alterar Dados               |')
     print('----------------------------------------------')
-    print('| Nome   | CPF     | Senha   | Endereço      |')
-    print('----------------------------------------------')
-    cpf = input('Informe o seu email: ')
+    cpf = input('Informe seu cpf: ')
     if cpf in clientes:
-        nome = input('Nome: ')
-        print()
-        senha = input('Senha: ')
-        print()
-        endereco = input('Endereço: ')
-        clientes[cpf] = [nome, senha, endereco]
+        clear_screen()
+        nome, endereco = chamar_dados(cpf, clientes)
+        print('|---------------------------------------------------------------------------------------------------------------------------------|')
+        print('|                                                   Dados Cliente                                                                 |')
+        print('|---------------------------------------------------------------------------------------------------------------------------------|')
+        print('|                    Nome                     |       CPF       |                            Endereço                             |')
+        print('|---------------------------------------------------------------------------------------------------------------------------------|')
+        print('|{:^45}'.format(nome), end='')
+        print('|{:^17}'.format(cpf), end='')
+        print('|{:^64}'.format(endereco), '|')
+        print('|---------------------------------------------------------------------------------------------------------------------------------|')
+        alt_decisao(cpf)
     else:
-        print('O cpf é inexistente')
-    print('Dados alterados com sucesso!!')
-    input('Tecle <ENTER> para continuar...')
+        print('O cpf informado não está cadastrado no nosso sistema.')
 
 def excluir_cliente():
     clear_screen()
