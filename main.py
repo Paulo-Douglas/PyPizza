@@ -1,4 +1,5 @@
 import pickle
+import textwrap
 import os
 
 ################################################################
@@ -141,7 +142,7 @@ def carregar_clientes():
         arq_clientes = open("clientes.dat", "wb")
         arq_clientes.close()
 
-def cadrastar_cliente():
+def cadastrar_cliente(clientes):
     clientes = {}
     arq_clientes = open("clientes.dat", "wb")
     pickle.dump(clientes, arq_clientes)
@@ -376,7 +377,6 @@ def menu_pedidos():
     print('|             1 - Cardápio                   |')
     print('|             2 - Carrinho                   |')
     print('|             3 - Promoções                  |')
-    print('|             4 - Feedbacks                  |')
     print('|             0 - Retornar ao Menu Principal |')
     print('----------------------------------------------')
     op_pedidos = input("Escolha sua opção: ")
@@ -487,7 +487,7 @@ while op_prin != '0':
         while op_cliente != '0':
             op_cliente = menu_clientes()
             if op_cliente == '1':
-                cadatrar_clientes()
+                cadastrar_clientes()
             elif op_cliente == '2':
                 exibir_dados()
             elif op_cliente == '3':
