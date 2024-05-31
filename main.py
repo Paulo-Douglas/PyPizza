@@ -248,6 +248,23 @@ def alt_decisao(cpf):
             print('Alterações feitas com sucesso!!')
             verificar = False
 
+def del_cliente(cpf):
+    resposta = ['s', 'sim', 'n', 'nao', 'não']
+    verificar = True
+    while verificar:
+        resp = input('Caro cliente, realmente deseja excluir sua conta do sistema (sim/não)? ').lower()
+        if resp not in resposta:
+            print('Resposta inválida. Responda somente com SIM ou NÃO.')
+            continue
+        if resp in ['s', 'sim']:
+            try:
+                print('Exclusão bem-sucedida. Até mais.')
+                del clientes[cpf]
+            except KeyError:
+                print('CPF não encontrado. Nenhuma exclusão realizada.')
+                
+        verificar = False
+
 def validar_opcao(opcao, menu_pizzas):
     if opcao == '0':
         return False
