@@ -127,14 +127,13 @@ def clear_screen():
     os.system('clear || cls')
 
 def carregar_clientes():
-    clientes = {}
+    global clientes
     try:
         arq_clientes = open("clientes.dat", "rb")
         clientes = pickle.load(arq_clientes)
-        return clientes
-    except:
+    except (FileNotFoundError, EOFError):
         arq_clientes = open("clientes.dat", "wb")
-        arq_clientes.close()
+        pickle.dump(clientes, arq_clientes)
 
 def cadastrar_cliente(clientes):
     clientes = {}
