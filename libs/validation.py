@@ -6,6 +6,9 @@ def name_validator(nome):
             return nome
         else:
             print('O nome informado deve ter ao menos 3 letras.')
+    else:
+        print('O nome de pizza informado é inválido. Informe um que possua somente letras e espaços!')
+
 
 def cpf_validator(cpf):  # função para validar cpf - [GPT]
     cpf = ''.join(filter(str.isdigit, cpf))
@@ -37,3 +40,10 @@ def num_validator(num):
     num = num.replace(' ', '')
     if num.isdigit():
         return num
+
+def isfloat(value):
+    try:
+        float(value)
+        return True
+    except ValueError:
+        return False

@@ -1,7 +1,6 @@
 import model.ClientesModel as clm
 import view.ClientesView as clv
 import libs.validation as val
-import textwrap
 
 clm.carregar_clientes()
 

@@ -1,5 +1,7 @@
 import controller.ClientesController as clc
+import controller.CardapioController as cac
 import view.ClientesView as clv
+import view.CardapioView as cav
 import model.ClientesModel as clm
 import libs.utils as ut
 
@@ -9,7 +11,7 @@ def menu_principal():
     print('|         Sistema de Gestão - Pizzaria       |')
     print('----------------------------------------------')
     print('|             1 - Clientes                   |')
-    print('|             2 - Pedidos                    |')
+    print('|             2 - Vendas                     |')
     print('|             3 - Funcionários               |')
     print('|             4 - Administração              |')
     print('|             5 - Sobre a Pizzaria           |')
@@ -34,5 +36,18 @@ while op_prin != '0':
                 clc.dados_exibir()
             elif op_cliente == '3':
                 clc.dados_alterar()
+            elif op_cliente == '4':
+                clc.cliente_excluir()
+    
+    elif op_prin == '2':
+        op_pedidos = ''
+        while op_pedidos != '0':
+            op_pedidos = cav.menu_pedidos()
+            if op_pedidos == '1':
+                cac.exibir_cardapio()
+            elif op_pedidos == '2':
+                cac.carrinho()
+            elif op_pedidos == '4':
+                cac.cadastrar_pizza()
 
 clm.salvar_clientes()

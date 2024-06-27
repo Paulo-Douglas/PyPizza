@@ -86,18 +86,19 @@ def alt_decisao(cpf):
 
 def del_cliente(cpf):
     resposta = ['s', 'sim', 'n', 'nao', 'não']
-    verificar = True
-    while verificar:
+    while True:
         resp = input('Caro cliente, realmente deseja excluir sua conta do sistema (sim/não)? ').lower()
         if resp not in resposta:
             print('Resposta inválida. Responda somente com SIM ou NÃO.')
             continue
         if resp in ['s', 'sim']:
             try:
-                print('Exclusão bem-sucedida. Até mais.')
                 del clientes[cpf]
+                salvar_clientes() 
+                print('Exclusão bem-sucedida. Até mais.')
             except KeyError:
                 print('CPF não encontrado. Nenhuma exclusão realizada.')
-                
-        verificar = False
+        else:
+            print('Operação de exclusão cancelada.')
+        break
 
