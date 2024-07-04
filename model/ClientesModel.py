@@ -1,35 +1,14 @@
 import controller.ClientesController as clc
+import libs.files as fil
+import libs.insertes as ins
+import libs.get as gt
 import textwrap
-import pickle
 
-clientes = {}
-
-def carregar_clientes():
-    global clientes
-    try:
-        arq_clientes = open("clientes.dat", "rb")
-        clientes = pickle.load(arq_clientes)
-    except (FileNotFoundError, EOFError):
-        arq_clientes = open("clientes.dat", "wb")
-        pickle.dump(clientes, arq_clientes)
-
-def salvar_clientes():
-    arq_clientes = open("clientes.dat", "wb")
-    pickle.dump(clientes, arq_clientes)
-    arq_clientes.close()
-
-def adicionar_clientes(cpf, nome, endereco):
-    global clientes
-    clientes[cpf] = [nome, endereco]
-    salvar_clientes()
-
-def verificar_cpf(cpf):
-    return cpf in clientes
-
-def obter_cliente(cpf):
-    return clientes.get(cpf)
+clientes = fil.carregar_dados('clientes.dat')
 
 def chamar_dados(cpf):
+    if cpf not in clientes:
+        return None, None
     nome = clientes[cpf][0]
     endereco = clientes[cpf][1]
     endereco_str = f"{endereco['rua']}, {endereco['numero']} - {endereco['bairro']}"
@@ -61,15 +40,16 @@ def alt_decisao(cpf):
             break
         elif decisao in alternativas:
             if decisao == 'nome':
-                nome = clc.insert_name()
+                nome = ins.insert_name()
                 clientes[cpf][0] = nome
                 print('Nome alterado com sucesso.')
             elif decisao == 'cpf':
-                novo_cpf = clc.insert_cpf()
-                clientes[cpf] = novo_cpf
+                novo_cpf = ins.insert_cpf()
+                clientes[novo_cpf] = clientes.pop(cpf)  # Atualiza a chave
+                cpf = novo_cpf  # Atualiza o valor de cpf
                 print('O CPF foi alterado com sucesso.')
             else:
-                endereco = clc.insert_address()
+                endereco = ins.insert_address()
                 clientes[cpf][1] = endereco
                 print('O endereço foi alterado com sucesso.')
         else:
@@ -80,7 +60,7 @@ def alt_decisao(cpf):
         if resp not in resposta:
             print('Resposta inválida. Responda com somente SIM ou NÃO.')
             continue
-        if resp == 'n' or resp == 'nao' or resp == 'não':
+        if resp in ['n', 'nao', 'não']:
             print('Alterações feitas com sucesso!!')
             verificar = False
 
@@ -94,11 +74,10 @@ def del_cliente(cpf):
         if resp in ['s', 'sim']:
             try:
                 del clientes[cpf]
-                salvar_clientes() 
+                fil.salvar_clientes(clientes)
                 print('Exclusão bem-sucedida. Até mais.')
             except KeyError:
                 print('CPF não encontrado. Nenhuma exclusão realizada.')
         else:
             print('Operação de exclusão cancelada.')
         break
-

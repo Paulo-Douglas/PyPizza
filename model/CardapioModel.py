@@ -1,41 +1,9 @@
+import libs.insertes as ins
+import libs.files as fil
 import textwrap
 import pickle
 
 pedidos = {}
-
-def carregar_dados(nome_arquivo, default={}):
-    try:
-        with open(nome_arquivo, 'rb') as arq:
-            return pickle.load(arq)
-    except (FileNotFoundError, EOFError):
-        with open(nome_arquivo, 'wb') as arq:
-            pickle.dump(default, arq)
-        return default
-
-def salvar_dados(nome_arquivo, dados):
-    with open(nome_arquivo, 'wb') as arq:
-        pickle.dump(dados, arq)
-
-def carregar_cardapio():
-    return carregar_dados("cardapio.dat")
-
-def salvar_cardapio(cardapio):
-    salvar_dados("cardapio.dat", cardapio)
-
-def carregar_pedidos():
-    return carregar_dados("pedidos.dat")
-
-def salvar_pedidos(pedidos):
-    salvar_dados("pedidos.dat", pedidos)
-
-def adicionar_pedido(cpf, pedido):
-    pedidos = carregar_pedidos()
-    if cpf in pedidos:
-        for id_pedido, dados_pedido in pedido.items():
-            pedidos[cpf][id_pedido] = dados_pedido
-    else:
-        pedidos[cpf] = pedido
-    salvar_pedidos(pedidos)
 
 def formatar_dados(cardapio):
     dados_formatados = []
@@ -60,15 +28,8 @@ def formatar_dados(cardapio):
             valores_final = '{:^31}'.format(linhas_valores[i]) if i < len(linhas_valores) else '{:^31}'.format('')
             linha += f'|{nome_final}|{ing_final}|{valores_final} |'
             dados_formatados.append(linha)
+        dados_formatados.append('|--------|------------------|---------------------------------------------------------------------|--------------------------------|')  # Linha separadora
     return dados_formatados
-
-def adicionar_pedido(cpf, pedido):
-    pedidos = carregar_pedidos()
-    if cpf in pedidos:
-        pedidos[cpf].update(pedido)  # Atualizar pedidos existentes
-    else:
-        pedidos[cpf] = pedido
-    salvar_pedidos(pedidos)
 
 def formatar_pedidos_cliente(pedidos_cliente):
     dados_formatados = []
@@ -102,11 +63,11 @@ def formatar_pedidos_cliente(pedidos_cliente):
                 valor_final = '{:^21}'.format(linhas_valor[i]) if i < len(linhas_valor) else '{:^21}'.format('')
                 linha += f'|{nome_final}|{ing_final}|{tamanho_final}|{valor_final}|'
                 dados_formatados.append(linha)
-
+            dados_formatados.append('|--------|------------------|---------------------------------------------------------------------|-----------------------------------|')  # Linha separadora
     return dados_formatados, valor_total
 
 def del_pedido(cpf):
-    pedidos = carregar_pedidos()
+    pedidos = fil.carregar_pedidos()
     alternativas = ['s', 'sim', 'n', 'nao', 'não']
     
     while True:
@@ -119,7 +80,7 @@ def del_pedido(cpf):
         if cpf in pedidos:
             try:
                 del pedidos[cpf]  # Remover pedidos do cliente pelo CPF
-                salvar_pedidos(pedidos)
+                fil.salvar_pedidos(pedidos)
                 print('Exclusão bem-sucedida. Até mais.')
             except KeyError:
                 print('CPF não encontrado. Nenhuma exclusão realizada.')
@@ -127,4 +88,35 @@ def del_pedido(cpf):
             print('Nenhum pedido encontrado para o CPF informado.')
     else:
         print('Operação de exclusão cancelada.')
+
+def editar_pizza(cardapio):
+    alternativas = ['nome', 'ingredientes', 'valores']
+    resposta = ['s', 'sim', 'n', 'nao', 'não']
+    verificar = True
+    while verificar:
+        decisao = input('Qual dado você deseja alterar? - Tecle 0 caso não queira fazer alteração: ').lower()
+        if decisao == '0':
+            break
+        elif decisao in alternativas:
+            if decisao == 'nome':
+                nome =ins.insert_name_pizza ()
+                cardapio[id][0] = nome
+            elif decisao == 'ingredientes':
+                ing = ins.insert_ingredientes()
+                cardapio[id][1] = ing
+            else:
+                valores = ins.insert_value()
+                cardapio[id][2] = valores
+        else:
+            print('Dado informado não existe. Escolha entre: NOME, INGREDIENTES e VALORES.')
+            continue
+        
+        while True:
+            resp = input('Deseja fazer uma nova alteração (sim/não) ? ').lower()
+            if resp in alternativas:
+                break
+            print('Resposta inválida. Por favor, escolha entre SIM/NÃO.')
+        if resp in ['n', 'nao', 'não']:
+            print('Alterações feitas com sucesso!!')
+            verificar = False
 

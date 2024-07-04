@@ -1,26 +1,5 @@
 import controller.ClientesController as clc
-import model.ClientesModel as clm
 import libs.utils as ut
-
-def get_name():
-    nome = input('Informe seu nome: ')
-    return nome
-
-def get_cpf():
-    cpf = input('Informe seu CPF: ')
-    return cpf
-
-def get_rua():
-    rua = input('Informe o nome da rua: ')
-    return rua
-
-def get_numero():
-    numero = input('Informe o número da casa: ')
-    return numero
-
-def get_bairro():
-    bairro = input('Informe o nome do seu bairro: ')
-    return bairro
 
 def menu_clientes():
     ut.clear_screen()
@@ -51,7 +30,6 @@ def exibir_dados1():
     print('----------------------------------------------')
     print('|                 Exibir Dados               |')
     print('----------------------------------------------')
-
 
 def alterar_dados():
     ut.clear_screen()

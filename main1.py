@@ -2,7 +2,6 @@ import controller.ClientesController as clc
 import controller.CardapioController as cac
 import view.ClientesView as clv
 import view.CardapioView as cav
-import model.ClientesModel as clm
 import libs.utils as ut
 
 def menu_principal():
@@ -19,8 +18,6 @@ def menu_principal():
     print('----------------------------------------------')
     op_prin = input("Escolha sua opção: ")
     return op_prin
-
-clm.carregar_clientes()
 
 op_prin = ''
 while op_prin != '0':
@@ -47,7 +44,7 @@ while op_prin != '0':
                 cac.exibir_cardapio()
             elif op_pedidos == '2':
                 cac.carrinho()
-            elif op_pedidos == '4':
+            elif op_pedidos == '3':
                 cac.cadastrar_pizza()
-
-clm.salvar_clientes()
+            elif op_pedidos == '4':
+                cac.editar_pizza()
