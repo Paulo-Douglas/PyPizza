@@ -16,7 +16,7 @@ def menu_clientes():
     return op_cliente
 
 def confirmacao(texto):
-    return input(f'Você quer mesmo realizar {texto}? -> Digite 1 para continuar e 0 para sair ').strip()
+    return input(f'Caro cliente, você quer mesmo realizar {texto}? -> Digite 1 para continuar e 0 para sair: ').strip()
 
 def cadastrar_clientes():
     ut.clear_screen()
