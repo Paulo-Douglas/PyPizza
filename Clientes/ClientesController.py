@@ -18,6 +18,7 @@ def register_client():
                 clm.salvar_clientes(clientes)
                 print(f'Nome - {nome} | CPF - {cpf} | Endereço - {endereco}')
                 ut.mostrar_mensagem('Cliente cadastrado com sucesso!')
+                break
             case '0':
                 break
             case _:
@@ -56,5 +57,4 @@ def cliente_excluir():
         clm.del_cliente(cpf, clientes)
         clm.salvar_clientes(clientes)
     else:
-        print('O CPF informado não está cadastrado no nosso sistema.')
-    input('Tecle <ENTER> para continuar...')
+        ut.mostrar_mensagem('O CPF informado não está cadastrado no nosso sistema.')
