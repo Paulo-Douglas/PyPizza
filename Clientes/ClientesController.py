@@ -32,7 +32,7 @@ def dados_exibir():
         nome, endereco = clm.chamar_dados(cpf, clientes)
         clv.dados_clientes(cpf, nome, endereco)
     else:
-        ut.mostrar_mensagem('CPF não encontrado no sistema.')
+        ut.mostrar_mensagem('O CPF informado não está cadastrado no nosso sistema.')
 
 def dados_alterar():
     clv.alterar_dados()
@@ -44,8 +44,7 @@ def dados_alterar():
         clm.alt_decisao(cpf, clientes)
         clm.salvar_clientes(clientes)
     else:
-        print('O CPF informado não está cadastrado no nosso sistema.')
-    input('Tecle <ENTER> para continuar...')
+        ut.mostrar_mensagem('O CPF informado não está cadastrado no nosso sistema.')
 
 def cliente_excluir():
     clv.excluir_cliente()
