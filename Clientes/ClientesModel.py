@@ -36,37 +36,37 @@ def chamar_dados(cpf, clientes):  # Função de formatar dados feita pela IA - G
     return nome_final, endereco_final
 
 def alt_decisao(cpf, clientes):
-    alternativas = ['nome', 'cpf', 'endereço', 'endereco']
     resposta = ['s', 'sim', 'n', 'nao', 'não']
     while True:
         decisao = input('Qual dado você deseja alterar? - Tecle 0 caso não queira fazer alteração: ').lower()
-        if decisao == '0':
-            break
-        elif decisao in alternativas:
-            if decisao == 'nome':
+        match decisao:
+            case '0':
+                break
+            case '1':
                 nome = ins.insert_name()
                 clientes[cpf][0] = nome
                 print('Nome alterado com sucesso.')
-            elif decisao == 'cpf':
+            case '2':
                 novo_cpf = ins.insert_cpf()
                 clientes[novo_cpf] = clientes.pop(cpf)
                 cpf = novo_cpf
                 print('O CPF foi alterado com sucesso.')
-            else:
+            case '3':
                 endereco = ins.insert_address()
                 clientes[cpf][1] = endereco
                 print('O endereço foi alterado com sucesso.')
-        else:
-            print('Dado informado não existe. Escolha entre: NOME, CPF e ENDEREÇO.')
-            continue
-        
-        resp = input('Deseja fazer uma nova alteração (sim/não) ? ').lower()
-        if resp not in resposta:
-            print('Resposta inválida. Responda com somente SIM ou NÃO.')
-            continue
-        if resp in ['n', 'nao', 'não']:
-            print('Alterações feitas com sucesso!!')
-            break
+            case _:
+                print('Número informado não é válido. Escolha entre: 1 (Nome), 2 (CPF) e 3 (Endereço).')
+                continue
+
+        while True:
+            resp = input('Deseja fazer uma nova alteração (sim/não) ? ').lower().strip()
+            if resp not in resposta:
+                print('Resposta inválida. Responda com somente SIM ou NÃO.')
+                continue
+            if resp in ['n', 'nao', 'não']:
+                print('Alterações feitas com sucesso!!')
+                return
 
 def del_cliente(cpf, clientes):
     resposta = ['s', 'sim', 'n', 'nao', 'não']
