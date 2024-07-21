@@ -93,30 +93,37 @@ def editar_pizza(cardapio):
     alternativas = ['nome', 'ingredientes', 'valores']
     resposta = ['s', 'sim', 'n', 'nao', 'não']
     verificar = True
-    while verificar:
-        decisao = input('Qual dado você deseja alterar? - Tecle 0 caso não queira fazer alteração: ').lower()
-        if decisao == '0':
-            break
-        elif decisao in alternativas:
-            if decisao == 'nome':
-                nome =ins.insert_name_pizza ()
-                cardapio[id][0] = nome
-            elif decisao == 'ingredientes':
-                ing = ins.insert_ingredientes()
-                cardapio[id][1] = ing
-            else:
-                valores = ins.insert_value()
-                cardapio[id][2] = valores
-        else:
-            print('Dado informado não existe. Escolha entre: NOME, INGREDIENTES e VALORES.')
-            continue
-        
-        while True:
-            resp = input('Deseja fazer uma nova alteração (sim/não) ? ').lower()
-            if resp in alternativas:
-                break
-            print('Resposta inválida. Por favor, escolha entre SIM/NÃO.')
-        if resp in ['n', 'nao', 'não']:
-            print('Alterações feitas com sucesso!!')
-            verificar = False
 
+    while verificar:
+        id = input('Informe o ID da pizza que vc deseja alterar os dados.  - Tecle 0 caso não queira fazer alteração: ')
+        if id == '0':
+            break
+        elif id in cardapio:
+            while True:
+                decisao = input('Qual dado da pizza você deseja alterar (nome, ingredientes, valores)? ').lower()
+                if decisao in alternativas:
+                    if decisao == 'nome':
+                        nome = ins.insert_name_pizza(cardapio)
+                        cardapio[id][0] = nome
+                    elif decisao == 'ingredientes':
+                        ing = ins.insert_ingredientes()
+                        cardapio[id][1] = ing
+                    else:
+                        valores = ins.insert_value()
+                        cardapio[id][2] = valores
+                    break
+                else:
+                    print('Dado informado não existe. Escolha entre: nome, ingredientes e valores.')
+            
+            while True:
+                resp = input('Deseja fazer uma nova alteração nesta pizza (sim/não) ? ').lower()
+                if resp in resposta:
+                    break
+                print('Resposta inválida. Por favor, escolha entre SIM/NÃO.')
+            
+            if resp in ['n', 'nao', 'não']:
+                print('Alterações feitas com sucesso!!')
+                verificar = False
+        else:
+            print('ID da pizza inválido. Por favor, informe um ID válido.')
+    fil.salvar_cardapio(cardapio)

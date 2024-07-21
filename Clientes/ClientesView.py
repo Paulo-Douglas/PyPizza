@@ -1,4 +1,3 @@
-import controller.ClientesController as clc
 import libs.utils as ut
 
 def menu_clientes():
@@ -15,6 +14,9 @@ def menu_clientes():
     print('----------------------------------------------')
     op_cliente = input("Escolha sua opção: ")
     return op_cliente
+
+def confirmacao(texto):
+    return input(f'Você quer mesmo realizar {texto}? -> Digite 1 para continuar e 0 para sair ').strip()
 
 def cadastrar_clientes():
     ut.clear_screen()
@@ -46,11 +48,18 @@ def excluir_cliente():
 def dados_clientes(cpf, nome, endereco):
     ut.clear_screen()
     print('|---------------------------------------------------------------------------------------------------------------------------------|')
-    print('|                                                   Dados Cliente                                                                 |')
+    print('|                                                     Dados Cliente                                                               |')
     print('|---------------------------------------------------------------------------------------------------------------------------------|')
     print('|                    Nome                     |       CPF       |                            Endereço                             |')
     print('|---------------------------------------------------------------------------------------------------------------------------------|')
     print('|{:^45}'.format(nome), end='')
     print('|{:^17}'.format(cpf), end='')
     print('|{:^64}'.format(endereco), '|')
+    print('|---------------------------------------------------------------------------------------------------------------------------------|')
+
+def alterar_dados():
+    print('|---------------------------------------------------------------------------------------------------------------------------------|')
+    print('|                                                     Alterar Dados                                                               |')
+    print('|---------------------------------------------------------------------------------------------------------------------------------|')
+    print('|    Digite 1 para alterar -> Nome      |    Digite 2 para alterar -> CPF      |   Digite 2 para alterar -> Endereço              |')
     print('|---------------------------------------------------------------------------------------------------------------------------------|')

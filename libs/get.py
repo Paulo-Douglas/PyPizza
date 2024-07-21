@@ -4,15 +4,6 @@ def get_name():
 def get_cpf():
     return input('Informe seu CPF: ')
 
-def get_rua():
-    return input('Informe o nome da rua: ')
-
-def get_numero():
-    return input('Informe o número da casa: ')
-
-def get_bairro():
-    return input('Informe o nome do seu bairro: ')
-
 def get_nome_pizza():
     return input('Informe o nome da pizza: ')
 

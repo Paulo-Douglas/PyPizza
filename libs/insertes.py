@@ -20,32 +20,10 @@ def insert_cpf():
             continue
         return cpf
 
-def insert_street():
-    while True:
-        rua = gt.get_rua()
-        if val.name_validator(rua):
-            return rua
-        print('O nome da rua informado é inválido. Por favor, informe outro!')
-
-def insert_number():
-    while True:
-        numero = gt.get_numero()
-        if val.num_validator(numero):
-            return numero
-        print('O número informado é inválido. Por favor, informe outro usando somente números inteiros!')
-
-def insert_neighborhood():
-    while True:
-        bairro = gt.get_bairro()
-        if val.name_validator(bairro):
-            return bairro
-        print('O nome do bairro informado é inválido. Por favor, informe outro!')
-
 def insert_address():
-    street = insert_street()
-    number = insert_number()
-    neighborhood = insert_neighborhood()
-    return {'rua': street, 'numero': number, 'bairro': neighborhood}
+    while True:
+        endereco =  input('Informe seu endereço: ')
+        return endereco
 
 ########################################### VENDAS ####################################################################
 

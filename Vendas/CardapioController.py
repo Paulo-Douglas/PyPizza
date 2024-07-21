@@ -1,5 +1,5 @@
-import model.CardapioModel as cam
-import view.CardapioView as cav
+import Vendas.CardapioModel as cam
+import Vendas.CardapioView as cav
 import libs.verify as verf
 import libs.insertes as ins
 import libs.files as fil
@@ -133,3 +133,4 @@ def editar_pizza():
     else:
         print('O CPF informado não está cadastrado no nosso sistema.')
     input('Tecle <ENTER> para continuar...')
+

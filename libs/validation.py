@@ -7,7 +7,7 @@ def name_validator(nome):
         else:
             print('O nome informado deve ter ao menos 3 letras.')
     else:
-        print('O nome de pizza informado é inválido. Informe um que possua somente letras e espaços!')
+        print('O nome informado é inválido. Informe um que possua somente letras e espaços!')
 
 
 def cpf_validator(cpf):  # função para validar cpf - [GPT]

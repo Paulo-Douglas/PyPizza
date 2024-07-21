@@ -1,4 +1,4 @@
-import model.CardapioModel as cam
+import Vendas.CardapioModel as cam
 import libs.utils as ut
 
 def confirmar_pedido():

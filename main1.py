@@ -1,7 +1,8 @@
-import controller.ClientesController as clc
-import controller.CardapioController as cac
-import view.ClientesView as clv
-import view.CardapioView as cav
+import Clientes.ClientesController as clc
+import Vendas.CardapioController as cac
+import Clientes.ClientesModel as clm
+import Clientes.ClientesView as clv
+import Vendas.CardapioView as cav
 import libs.utils as ut
 
 def menu_principal():
@@ -48,3 +49,5 @@ while op_prin != '0':
                 cac.cadastrar_pizza()
             elif op_pedidos == '4':
                 cac.editar_pizza()
+
+clm.salvar_clientes()
