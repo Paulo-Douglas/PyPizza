@@ -17,6 +17,7 @@ def register_client():
                 clientes[cpf] = [nome, endereco]
                 clm.salvar_clientes(clientes)
                 print(f'Nome - {nome} | CPF - {cpf} | Endereço - {endereco}')
+                print()
                 ut.mostrar_mensagem('Cliente cadastrado com sucesso!')
                 break
             case '0':
