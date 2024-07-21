@@ -83,6 +83,7 @@ def del_cliente(cpf, clientes):
                     continue
             case '0':
                 ut.mostrar_mensagem('Operação de exclusão cancelada.')
+                break
             case _:
                 print('Resposta informada não é válida. Escolha entre: 1 (continuar com a exclusão) e 2 (sair).')
                 continue
