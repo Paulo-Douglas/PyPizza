@@ -1,4 +1,6 @@
+import Clientes.ClientesView as clv
 import libs.insertes as ins
+import libs.utils as ut
 import textwrap
 import pickle
 
@@ -69,18 +71,18 @@ def alt_decisao(cpf, clientes):
                 return
 
 def del_cliente(cpf, clientes):
-    resposta = ['s', 'sim', 'n', 'nao', 'não']
     while True:
-        resp = input('Caro cliente, realmente deseja excluir sua conta do sistema (sim/não)? ').lower()
-        if resp not in resposta:
-            print('Resposta inválida. Responda somente com SIM ou NÃO.')
-            continue
-        if resp in ['s', 'sim']:
-            try:
-                del clientes[cpf]
-                print('Exclusão bem-sucedida. Até mais.')
-            except KeyError:
-                print('CPF não encontrado. Nenhuma exclusão realizada.')
-        else:
-            print('Operação de exclusão cancelada.')
-        break
+        resp = clv.confirmacao('a exclusão da sua conta')
+        match resp:
+            case '1':
+                if cpf in clientes:
+                    del clientes[cpf]
+                    ut.mostrar_mensagem('Exclusão bem-sucedida. Até mais.')
+                else:
+                    print('CPF não encontrado. Nenhuma exclusão realizada.')
+                    continue
+            case '0':
+                ut.mostrar_mensagem('Operação de exclusão cancelada.')
+            case _:
+                print('Resposta informada não é válida. Escolha entre: 1 (continuar com a exclusão) e 2 (sair).')
+                continue
