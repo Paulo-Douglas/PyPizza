@@ -1,15 +1,13 @@
+import Clientes.ClientesModel as clm
 import Vendas.CardapioModel as cam
 import Vendas.CardapioView as cav
 import libs.verify as verf
 import libs.insertes as ins
-import libs.files as fil
 import libs.get as gt
-
-clientes = fil.carregar_clientes()
-cardapio = fil.carregar_cardapio()
 
 def cadastrar_pizza():
     cav.cadastrar_pizza()
+    cardapio = cam.cardapio
     id = f'{len(cardapio) + 1}'  
     nome = ins.insert_name_pizza(cardapio)
     ingredientes = ins.insert_ingredientes()
@@ -18,10 +16,10 @@ def cadastrar_pizza():
     print(f'ID - {id}  |   Nome - {nome}   |   Ingredientes - {ingredientes}   |   Valor P - {valores[0]}   |   Valor M - {valores[1]}  |   Valor G - {valores[2]}  |  Valor GG - {valores[3]}')
     print()
     input('Tecle <ENTER> para continuar...')
-    fil.salvar_cardapio(cardapio)
 
 def exibir_cardapio():
     cav.exibir_cardapio()
+    cardapio = cam.cardapio
     cpf = gt.get_cpf()
     if verf.verificar_cpf(cpf):
         dados = cam.formatar_dados(cardapio)
@@ -57,10 +55,10 @@ def solicitar_pizza(cardapio):
         return id
 
 def fazer_pedido(cpf):
-    cardapio = fil.carregar_cardapio()
+    cardapio = cam.cardapio
     alternativas = ['s', 'sim', 'n', 'nao', 'não']
     tamanhos = ['p', 'm', 'g', 'gg']
-    pedidos_existentes = fil.carregar_pedidos()
+    pedidos_existentes = cam.pedidos
     pedido_cliente = pedidos_existentes.get(cpf, {})  # Obter pedidos existentes para o CPF
     
     request = pedido_fazer(alternativas)
@@ -83,13 +81,12 @@ def fazer_pedido(cpf):
             if novo_pedido in ['n', 'nao', 'não']:
                 print('Seu pedido foi recebido, para efetuar o pagamento vá para o carrinho.')
                 break
-        fil.adicionar_pedido(cpf, pedido_cliente)
+        #fil.adicionar_pedido(cpf, pedido_cliente)
 
 def carrinho():
     cav.carrinho()
     cpf = gt.get_cpf()
-    pedidos = fil.carregar_pedidos()
-
+    pedidos = cam.pedidos
     if cpf in pedidos:
         pedidos_cliente = {k: v for k, v in pedidos[cpf].items() if not v[5]}  # Filtrar apenas os pedidos não pagos
         if pedidos_cliente:
@@ -104,7 +101,7 @@ def carrinho():
     input('Tecle <ENTER> para continuar...')
 
 def pagamentos(cpf):
-    pedidos = fil.carregar_pedidos()
+    pedidos = cam.pedidos
     alternativas = ['s', 'sim', 'n', 'nao', 'não']
     pedidos_cliente = pedidos.get(cpf, {})
 
@@ -118,18 +115,18 @@ def pagamentos(cpf):
         for pedido_id in pedidos_cliente:
             pedido = pedidos_cliente[pedido_id]
             pedido[5] = True  # Marcar como pago
-        fil.salvar_pedidos(pedidos)
     elif resp in ['n', 'nao', 'não']:
         cam.del_pedido(cpf)
 
 def editar_pizza():
     cav.exibir_cardapio()
+    cardapio = cam.cardapio
+    clientes = clm.clientes
     cpf = gt.get_cpf()
     if cpf in clientes:
         dados = cam.formatar_dados(cardapio)
         cav.exibir_dados2(dados)
         cam.editar_pizza(cardapio)
-        fil.salvar_cardapio(cardapio)
     else:
         print('O CPF informado não está cadastrado no nosso sistema.')
     input('Tecle <ENTER> para continuar...')

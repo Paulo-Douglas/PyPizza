@@ -3,7 +3,23 @@ import libs.files as fil
 import textwrap
 import pickle
 
+cardapio = {}
+def carregar_cardapio():
+    global cardapio
+    try:
+        arq_cardapio = open("cardapio.dat", "rb")
+        cardapio = pickle.load(arq_cardapio)
+    except (FileNotFoundError, EOFError):
+        cardapio = {}
+
 pedidos = {}
+def carregar_pedidos():
+    global pedidos
+    try:
+        arq_pedidos = open("cardapio.dat", "rb")
+        pedidos = pickle.load(arq_pedidos)
+    except (FileNotFoundError, EOFError):
+        pedidos = {}
 
 def formatar_dados(cardapio):
     dados_formatados = []
@@ -67,7 +83,6 @@ def formatar_pedidos_cliente(pedidos_cliente):
     return dados_formatados, valor_total
 
 def del_pedido(cpf):
-    pedidos = fil.carregar_pedidos()
     alternativas = ['s', 'sim', 'n', 'nao', 'não']
     
     while True:
@@ -127,3 +142,6 @@ def editar_pizza(cardapio):
         else:
             print('ID da pizza inválido. Por favor, informe um ID válido.')
     fil.salvar_cardapio(cardapio)
+
+carregar_cardapio()
+carregar_pedidos()
