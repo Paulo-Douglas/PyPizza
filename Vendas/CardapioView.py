@@ -17,21 +17,10 @@ def menu_pedidos():
     print('----------------------------------------------')
     print('|             1 - Menu                       |')
     print('|             2 - Carrinho                   |')
-    print('|             3 - Cadastrar Pizza            |')
-    print('|             4 - Editar Pizza               |')
-    print('|             5 - Excluir Pizza              |')
     print('|             0 - Retornar ao Menu Principal |')
     print('----------------------------------------------')
     op_pedidos = input("Escolha sua opção: ")
     return op_pedidos
-
-def cadastrar_pizza():
-    ut.clear_screen()
-    print('---------------------------------------------------------------')
-    print('|                        Cadastrar Pizza                      |')
-    print('---------------------------------------------------------------')
-    print('|    ID     |      Nome      |    Ingredientes   |    Valor   |')
-    print('---------------------------------------------------------------')
 
 def exibir_cardapio():
     ut.clear_screen()
