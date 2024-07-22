@@ -1,34 +1,31 @@
-import Clientes.ClientesModel as clm
+import Funcionarios.FuncionariosModel as fum
 import Vendas.CardapioModel as cam
 import Vendas.CardapioView as cav
 import libs.verify as verf
 import libs.insertes as ins
 import libs.get as gt
-
-def cadastrar_pizza():
-    cav.cadastrar_pizza()
-    cardapio = cam.cardapio
-    id = f'{len(cardapio) + 1}'  
-    nome = ins.insert_name_pizza(cardapio)
-    ingredientes = ins.insert_ingredientes()
-    valores = ins.insert_value()
-    cardapio[id] = [nome, ingredientes, valores]
-    print(f'ID - {id}  |   Nome - {nome}   |   Ingredientes - {ingredientes}   |   Valor P - {valores[0]}   |   Valor M - {valores[1]}  |   Valor G - {valores[2]}  |  Valor GG - {valores[3]}')
-    print()
-    input('Tecle <ENTER> para continuar...')
+import libs.utils as ut
 
 def exibir_cardapio():
     cav.exibir_cardapio()
-    cardapio = cam.cardapio
-    cpf = gt.get_cpf()
-    if verf.verificar_cpf(cpf):
-        dados = cam.formatar_dados(cardapio)
-        cav.exibir_dados2(dados)
-        fazer_pedido(cpf)
-    else:
-        print('O CPF informado não está cadastrado no nosso sistema')
-    print()
-    input('Tecle <ENTER> para continuar...')
+    while True:
+        conf = ut.confirmacao('cliente', 'a exibição do cardápio')
+        match conf:
+            case '1':
+                cardapio = fum.cardapio
+                cpf = gt.get_cpf()
+                if verf.verificar_cpf(cpf):
+                    dados = fum.formatar_dados(cardapio)
+                    cav.exibir_dados2(dados)
+                    fazer_pedido(cpf)
+                else:
+                    ut.mensagem_erro('O CPF informado não está cadastrado no nosso sistema')
+                break
+            case '0':
+                break
+            case _:
+                ut.mensagem_erro('Caro usuário, a opção informada não é válida. Por favor, digite 1 para continuar com o cadastro e 0 para sair.')
+                continue
 
 def obter_tamanho(tamanhos):
     while True:
@@ -36,33 +33,39 @@ def obter_tamanho(tamanhos):
         if tamanho in tamanhos:
             return tamanho
         else:
-            print('O tamanho informado é inválido. Por favor, informe outro.')
+            ut.mensagem_erro('O tamanho informado é inválido. Por favor, informe outro.')
 
-def pedido_fazer(alternativas):
+def pedido_fazer():
     while True:
         request = gt.fazer_pedido()
-        if request in alternativas:
-            return request
-        else:
-            print('Resposta inválida. Por favor, escolha entre SIM ou NÃO.')
+        match request:
+            case '1':
+                return request
+            case '0':
+                return
+            case _:
+                ut.mensagem_erro('Resposta inválida. Por favor, escolha entre 1 para SIM ou 0 para NÃO.')
+                continue
 
 def solicitar_pizza(cardapio):
     while True:
         id = gt.get_pizza()
-        if id not in cardapio:
-            print('Pizza não encontrada.')
+        id = int(id)
+        if id in cardapio:
+            return id
+        else:
+            ut.mensagem_erro('Pizza não encontrada.')
             continue
-        return id
 
 def fazer_pedido(cpf):
-    cardapio = cam.cardapio
-    alternativas = ['s', 'sim', 'n', 'nao', 'não']
+    cardapio = fum.cardapio
+
     tamanhos = ['p', 'm', 'g', 'gg']
     pedidos_existentes = cam.pedidos
     pedido_cliente = pedidos_existentes.get(cpf, {})  # Obter pedidos existentes para o CPF
     
-    request = pedido_fazer(alternativas)
-    if request in ['s', 'sim']:
+    request = pedido_fazer()
+    if request:
         while True:
             id = solicitar_pizza(cardapio)
             tamanho = obter_tamanho(tamanhos)
@@ -70,18 +73,28 @@ def fazer_pedido(cpf):
             ingredientes = cardapio[id][1]
             pagamento = False
             valor = cardapio[id][2][tamanhos.index(tamanho)]
+
+            # Gere um novo ID para o pedido
+            novo_id_pedido = len(pedido_cliente) + 1
             
-            pedido_cliente[len(pedido_cliente) + 1] = [id, nome, ingredientes, tamanho, valor, pagamento]
+            # Adicione o novo pedido ao dicionário
+            pedido_cliente[novo_id_pedido] = [id, nome, ingredientes, tamanho, valor, pagamento]
             
             while True:
                 novo_pedido = gt.get_novo_pedido()
-                if novo_pedido in alternativas:
-                    break
-                print('Resposta inválida. Por favor, escolha entre SIM/NÃO.')
-            if novo_pedido in ['n', 'nao', 'não']:
-                print('Seu pedido foi recebido, para efetuar o pagamento vá para o carrinho.')
-                break
-        #fil.adicionar_pedido(cpf, pedido_cliente)
+                match novo_pedido:
+                    case '1':
+                        break  # Voltar ao loop externo para fazer um novo pedido
+                    case '0':
+                        ut.mensagem_erro('Seu pedido foi recebido, para efetuar o pagamento vá para o carrinho.')
+                        cam.pedidos[cpf] = pedido_cliente  # Salvar o pedido do cliente
+                        cam.salvar_pedidos()
+                        return  # Sair da função após finalizar o pedido
+                    case _:
+                        ut.mensagem_erro('Resposta inválida. Por favor, escolha entre 1 para SIM ou 0 para NÃO.')
+                        continue
+    else:
+        ut.mostrar_mensagem('Saindo...')
 
 def carrinho():
     cav.carrinho()
@@ -117,17 +130,3 @@ def pagamentos(cpf):
             pedido[5] = True  # Marcar como pago
     elif resp in ['n', 'nao', 'não']:
         cam.del_pedido(cpf)
-
-def editar_pizza():
-    cav.exibir_cardapio()
-    cardapio = cam.cardapio
-    clientes = clm.clientes
-    cpf = gt.get_cpf()
-    if cpf in clientes:
-        dados = cam.formatar_dados(cardapio)
-        cav.exibir_dados2(dados)
-        cam.editar_pizza(cardapio)
-    else:
-        print('O CPF informado não está cadastrado no nosso sistema.')
-    input('Tecle <ENTER> para continuar...')
-
