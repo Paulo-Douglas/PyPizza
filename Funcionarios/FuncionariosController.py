@@ -16,7 +16,8 @@ def cadastrar_pizza():
                 nome = ins.insert_name_pizza(cardapio)
                 ingredientes = ins.insert_ingredientes()
                 valores = ins.insert_value()
-                cardapio[id] = [nome, ingredientes, valores]
+                estado = True
+                cardapio[id] = [nome, ingredientes, valores, estado]
                 ingredientes_formatados = '-'.join(ingredientes)
                 fum.salvar_cardapio()
                 print(f'ID - {id}  |   Nome - {nome}   |   Ingredientes - {ingredientes_formatados}   |   Valor P - {valores[0]}   |   Valor M - {valores[1]}  |   Valor G - {valores[2]}  |  Valor GG - {valores[3]}')
@@ -49,3 +50,18 @@ def editar_pizza():
                 return
             case _:
                 ut.mensagem_erro('Caro funcionário, a opção informada não é válida. Por favor, digite 1 para continuar com o cadastro e 0 para sair.')
+
+def excluir_pizza():
+    cardapio = fum.cardapio
+    cliestes = clm.clientes
+    fuv.excluir_pizza()
+    while True:
+        cpf = gt.get_cpf()
+        if cpf in cliestes:
+            dados = fum.formatar_dados(cardapio)
+            fuv.exibir_cardapio(dados)
+            fum.del_pizza()
+            break
+        else:
+            ut.mensagem_erro('CPF não encontrado. Nenhuma exclusão realizada.')
+
