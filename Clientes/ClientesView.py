@@ -15,9 +15,6 @@ def menu_clientes():
     op_cliente = input("Escolha sua opção: ")
     return op_cliente
 
-def confirmacao(texto):
-    return input(f'Caro cliente, você quer mesmo realizar {texto}? -> Digite 1 para continuar e 0 para sair: ').strip()
-
 def cadastrar_clientes():
     ut.clear_screen()
     print()
@@ -57,7 +54,8 @@ def dados_clientes(cpf, nome, endereco):
     print('|{:^64}'.format(endereco), '|')
     print('|---------------------------------------------------------------------------------------------------------------------------------|')
 
-def alterar_dados(cpf, nome, endereco):
+def alterar_dados2(cpf, nome, endereco):
+    ut.clear_screen()
     print('|---------------------------------------------------------------------------------------------------------------------------------|')
     print('|                                                     Alterar Dados                                                               |')
     print('|---------------------------------------------------------------------------------------------------------------------------------|')
