@@ -57,6 +57,7 @@ def dados_alterar():
                     nome, endereco = clm.chamar_dados(cpf, clientes)
                     clv.alterar_dados2(cpf, nome, endereco)
                     clm.alt_decisao(cpf, clientes)
+                    clm.salvar_clientes()
                 else:
                     ut.mostrar_mensagem('O CPF informado não está cadastrado no nosso sistema.')
                     break
