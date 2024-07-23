@@ -53,7 +53,7 @@ def alterar_dados2(dados):
 def excluir_pizza():
     ut.clear_screen()
     print('----------------------------------------------')
-    print('|                Excluir Cliente             |')
+    print('|                 Excluir Pizza              |')
     print('----------------------------------------------')
 
 def exibir_cardapio(dados):
