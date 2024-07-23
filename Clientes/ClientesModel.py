@@ -5,14 +5,16 @@ import textwrap
 import pickle
 
 clientes = {}
-try:
-  arq_clientes = open("clientes.dat", "rb")
-  alunos = pickle.load(arq_clientes)
-except:
-  arq_clientes = open("clientes.dat", "wb")
-arq_clientes.close()
 
-def salvar_clientes(clientes):
+def carregar_clientes():
+    global clientes
+    try:
+        arq_clientes = open("clientes.dat", "rb")
+        clientes = pickle.load(arq_clientes)
+    except (FileNotFoundError, EOFError):
+        clientes = {}
+
+def salvar_clientes():
     arq_clientes = open("clientes.dat", "wb")
     pickle.dump(clientes, arq_clientes)
     arq_clientes.close()
@@ -40,7 +42,7 @@ def chamar_dados(cpf, clientes):  # Função de formatar dados feita pela IA - G
 def alt_decisao(cpf, clientes):
     resposta = ['s', 'sim', 'n', 'nao', 'não']
     while True:
-        decisao = input('Qual dado você deseja alterar? - Tecle 0 caso não queira fazer alteração: ').lower()
+        decisao = input('Qual dado você deseja alterar? - Tecle 0 caso não queira fazer alteração: ')
         match decisao:
             case '0':
                 break
@@ -72,7 +74,7 @@ def alt_decisao(cpf, clientes):
 
 def del_cliente(cpf, clientes):
     while True:
-        resp = clv.confirmacao('a exclusão da sua conta')
+        resp = clv.confirmacao('cliente', 'a exclusão da sua conta')
         match resp:
             case '1':
                 if cpf in clientes:
@@ -80,10 +82,10 @@ def del_cliente(cpf, clientes):
                     ut.mostrar_mensagem('Exclusão bem-sucedida. Até mais.')
                 else:
                     print('CPF não encontrado. Nenhuma exclusão realizada.')
-                    continue
             case '0':
                 ut.mostrar_mensagem('Operação de exclusão cancelada.')
                 break
             case _:
-                print('Resposta informada não é válida. Escolha entre: 1 (continuar com a exclusão) e 2 (sair).')
-                continue
+                ut.mensagem_erro('Resposta informada não é válida. Escolha entre: 1 (continuar com a exclusão) e 2 (sair).')
+                
+carregar_clientes()
