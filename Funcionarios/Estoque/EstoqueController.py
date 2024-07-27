@@ -1,7 +1,7 @@
 import Funcionarios.Estoque.EstoqueView as esv
 import Funcionarios.Estoque.EstoqueModel as esm
-import libs.insertes as ins
 import libs.utils as ut
+import libs.insertes as ins
 
 def cadastrar_pizza():
     esv.cadastrar_item()
