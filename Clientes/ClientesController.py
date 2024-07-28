@@ -1,8 +1,8 @@
 import Clientes.ClientesModel as clm
 import Clientes.ClientesView as clv
 import libs.insertes as ins
-import libs.get as gt
 import libs.utils as ut
+import libs.get as gt
 
 def register_client():
     clientes = clm.clientes
