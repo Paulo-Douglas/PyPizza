@@ -8,14 +8,17 @@ def register_client():
     clientes = clm.clientes
     clv.cadastrar_clientes()
     while True:
-        conf = ut.confirmacao('cliente','um cadastro')
+        conf = ut.confirmacao('cliente', 'um cadastro')
         match conf:
             case '1':
                 nome = ins.insert_name()
-                cpf = ins.insert_cpf()
+                cpf = clm.checar_cpf(clientes)  # Utiliza a função checar_cpf para verificar o CPF
+                if cpf == 0:  # Se checar_cpf retornar 0, significa que a conta foi reativada
+                    break
                 endereco = ins.insert_address()
-                clientes = clm.clientes
-                clientes[cpf] = [nome, endereco]
+                estado = True
+                clientes[cpf] = [nome, endereco, estado]
+                clm.salvar_clientes()
                 print(f'Nome - {nome} | CPF - {cpf} | Endereço - {endereco}')
                 print()
                 ut.mostrar_mensagem('Cliente cadastrado com sucesso!')
@@ -34,8 +37,13 @@ def dados_exibir():
                 cpf = gt.get_cpf()
                 clientes = clm.clientes
                 if cpf in clientes:
-                    nome, endereco = clm.chamar_dados(cpf, clientes)
-                    clv.dados_clientes(cpf, nome, endereco)
+                    if clientes[cpf][2] == True:
+                        nome, endereco = clm.chamar_dados(cpf, clientes)
+                        clv.dados_clientes(cpf, nome, endereco)
+                        ut.mostrar_mensagem(' ')
+                        break
+                    else:
+                        ut.mensagem_erro('A conta do cliente com esse CPF está inativa no nosso sistema. Para reativá-la, acesse a seção de cadastro')
                 else:
                     ut.mostrar_mensagem('O CPF informado não está cadastrado no nosso sistema.')
                     break
@@ -54,14 +62,19 @@ def dados_alterar():
                 cpf = gt.get_cpf()
                 clientes = clm.clientes
                 if cpf in clientes:
-                    nome, endereco = clm.chamar_dados(cpf, clientes)
-                    clv.alterar_dados2(cpf, nome, endereco)
-                    if not clm.alt_decisao(cpf, clientes):
-                        break
+                    if clientes[cpf][2] == True:
+                        nome, endereco = clm.chamar_dados(cpf, clientes)
+                        clv.alterar_dados2(cpf, nome, endereco)
+                        if not clm.alt_decisao(cpf, clientes):
+                            break
+                        else:
+                            clm.salvar_clientes()
                     else:
-                        clm.salvar_clientes()
+                        ut.mostrar_mensagem('A conta do cliente com esse CPF está inativa no nosso sistema. Para reativá-la, acesse a seção de cadastro.')
+                        break
                 else:
                     ut.mensagem_erro('O CPF informado não está cadastrado no nosso sistema.')
+                    continue
             case '0':
                 break
             case _:
@@ -76,9 +89,15 @@ def cliente_excluir():
                 cpf = gt.get_cpf()
                 clientes = clm.clientes
                 if cpf in clientes:
-                    nome, endereco = clm.chamar_dados(cpf, clientes)
-                    clv.dados_clientes(cpf, nome, endereco)
-                    clm.del_cliente(cpf, clientes)
+                    if clientes[cpf][2] == True:
+                        nome, endereco = clm.chamar_dados(cpf, clientes)
+                        clv.dados_clientes(cpf, nome, endereco)
+                        clm.del_cliente(cpf, clientes)
+                        ut.mostrar_mensagem('Operação de exclusão cancelada.')
+                        break
+                    else:
+                        ut.mostrar_mensagem('Esse CPF já foi excluído do nosso sistema.')
+                        break
                 else:
                     ut.mostrar_mensagem('O CPF informado não está cadastrado no nosso sistema.')
                     break
