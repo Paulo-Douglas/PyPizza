@@ -6,20 +6,21 @@ import pickle
 
 clientes = {}
 
-def carregar_clientes():
+def carregar_clientes(): # Função adaptada pela IA -> GPT
     global clientes
     try:
         arq_clientes = open("clientes.dat", "rb")
         clientes = pickle.load(arq_clientes)
     except (FileNotFoundError, EOFError):
-        clientes = {}
+        arq_clientes = open("clientes.dat", "wb")
+    arq_clientes.close()
 
 def salvar_clientes():
     arq_clientes = open("clientes.dat", "wb")
     pickle.dump(clientes, arq_clientes)
     arq_clientes.close()
 
-def chamar_dados(cpf, clientes):  # Função de formatar dados feita pela IA - GPT
+def chamar_dados(cpf, clientes): # Função adaptade pela IA -> Copilot
     nome = clientes[cpf][0]
     endereco = clientes[cpf][1]
     
@@ -30,13 +31,9 @@ def chamar_dados(cpf, clientes):  # Função de formatar dados feita pela IA - G
     linhas_endereco = endereco_quebrado.split('\n')
     
     max_linhas = max(len(linhas_nome), len(linhas_endereco))
-    nome_final = nome
-    endereco_final = endereco
-    
     for i in range(max_linhas):
         nome_final = linhas_nome[i] if i < len(linhas_nome) else ''
         endereco_final = linhas_endereco[i] if i < len(linhas_endereco) else ''
-    
     return nome_final, endereco_final
 
 def alt_decisao(cpf, clientes):
@@ -45,32 +42,40 @@ def alt_decisao(cpf, clientes):
         decisao = input('Qual dado você deseja alterar? - Tecle 0 caso não queira fazer alteração: ')
         match decisao:
             case '0':
-                break
+                return False
             case '1':
                 nome = ins.insert_name()
                 clientes[cpf][0] = nome
+                nome, endereco = chamar_dados(cpf, clientes)
+                clv.alterar_dados2(cpf, nome, endereco)
                 print('Nome alterado com sucesso.')
             case '2':
                 novo_cpf = ins.insert_cpf()
                 clientes[novo_cpf] = clientes.pop(cpf)
                 cpf = novo_cpf
+                nome, endereco = chamar_dados(cpf, clientes)
+                clv.alterar_dados2(cpf, nome, endereco)
                 print('O CPF foi alterado com sucesso.')
             case '3':
                 endereco = ins.insert_address()
                 clientes[cpf][1] = endereco
+                nome, endereco = chamar_dados(cpf, clientes)
+                clv.alterar_dados2(cpf, nome, endereco)
                 print('O endereço foi alterado com sucesso.')
             case _:
-                print('Número informado não é válido. Escolha entre: 1 (Nome), 2 (CPF) e 3 (Endereço).')
+                ut.mensagem_erro('Número informado não é válido. Escolha entre: 1 (Nome), 2 (CPF) e 3 (Endereço).')
                 continue
 
         while True:
-            resp = input('Deseja fazer uma nova alteração (sim/não) ? ').lower().strip()
+            resp = input('Deseja fazer uma nova alteração (sim/não)? ').lower().strip()
             if resp not in resposta:
-                print('Resposta inválida. Responda com somente SIM ou NÃO.')
+                ut.mensagem_erro('Resposta inválida. Responda com somente SIM ou NÃO.')
                 continue
             if resp in ['n', 'nao', 'não']:
-                print('Alterações feitas com sucesso!!')
-                return
+                ut.mostrar_mensagem('Alterações feitas com sucesso!!')
+                return False
+            break
+
 
 def del_cliente(cpf, clientes):
     while True:
