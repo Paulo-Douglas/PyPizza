@@ -5,6 +5,7 @@ import libs.get as gt
 import libs.utils as ut
 
 def register_client():
+    clientes = clm.clientes
     clv.cadastrar_clientes()
     while True:
         conf = ut.confirmacao('cliente','um cadastro')
@@ -23,7 +24,6 @@ def register_client():
                 break
             case _:
                 ut.mensagem_erro('Caro usuário, a opção informada não é válida. Por favor, digite 1 para continuar com o cadastro e 0 para sair.')
-                continue
 
 def dados_exibir():
     clv.exibir_dados1()
@@ -56,16 +56,16 @@ def dados_alterar():
                 if cpf in clientes:
                     nome, endereco = clm.chamar_dados(cpf, clientes)
                     clv.alterar_dados2(cpf, nome, endereco)
-                    clm.alt_decisao(cpf, clientes)
-                    clm.salvar_clientes()
+                    if not clm.alt_decisao(cpf, clientes):
+                        break
+                    else:
+                        clm.salvar_clientes()
                 else:
-                    ut.mostrar_mensagem('O CPF informado não está cadastrado no nosso sistema.')
-                    break
+                    ut.mensagem_erro('O CPF informado não está cadastrado no nosso sistema.')
             case '0':
                 break
             case _:
                 ut.mensagem_erro('Caro usuário, a opção informada não é válida. Por favor, digite 1 para continuar com o cadastro e 0 para sair.')
-                continue
 
 def cliente_excluir():
     clv.excluir_cliente()
