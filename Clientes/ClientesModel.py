@@ -1,5 +1,6 @@
 import Clientes.ClientesView as clv
 import libs.insertes as ins
+import libs.insertes as ins
 import libs.utils as ut
 import textwrap
 import pickle
@@ -46,6 +47,7 @@ def alt_decisao(cpf, clientes):
             case '1':
                 nome = ins.insert_name()
                 clientes[cpf][0] = nome
+                salvar_clientes()
                 nome, endereco = chamar_dados(cpf, clientes)
                 clv.alterar_dados2(cpf, nome, endereco)
                 print('Nome alterado com sucesso.')
@@ -53,12 +55,14 @@ def alt_decisao(cpf, clientes):
                 novo_cpf = ins.insert_cpf()
                 clientes[novo_cpf] = clientes.pop(cpf)
                 cpf = novo_cpf
+                salvar_clientes()
                 nome, endereco = chamar_dados(cpf, clientes)
                 clv.alterar_dados2(cpf, nome, endereco)
                 print('O CPF foi alterado com sucesso.')
             case '3':
                 endereco = ins.insert_address()
                 clientes[cpf][1] = endereco
+                salvar_clientes()
                 nome, endereco = chamar_dados(cpf, clientes)
                 clv.alterar_dados2(cpf, nome, endereco)
                 print('O endereço foi alterado com sucesso.')
@@ -76,21 +80,40 @@ def alt_decisao(cpf, clientes):
                 return False
             break
 
-
 def del_cliente(cpf, clientes):
     while True:
-        resp = clv.confirmacao('cliente', 'a exclusão da sua conta')
+        resp = ut.confirmacao('cliente', 'a exclusão da sua conta')
         match resp:
             case '1':
                 if cpf in clientes:
-                    del clientes[cpf]
+                    clientes[cpf][2] = False
+                    salvar_clientes()
                     ut.mostrar_mensagem('Exclusão bem-sucedida. Até mais.')
+                    break
                 else:
                     print('CPF não encontrado. Nenhuma exclusão realizada.')
             case '0':
-                ut.mostrar_mensagem('Operação de exclusão cancelada.')
                 break
             case _:
                 ut.mensagem_erro('Resposta informada não é válida. Escolha entre: 1 (continuar com a exclusão) e 2 (sair).')
+
+def checar_cpf(clientes):
+    while True:
+        cpf = ins.insert_cpf()
+        if cpf in clientes and not clientes[cpf][2]:  # Verifica se a conta está inativa
+            decisao = input('Caro cliente, você possui uma conta inativa no nosso sistema. Deseja reativá-la? Digite 1 para reativá-la ou 0 para prosseguir sem reativá-la: ')
+            match decisao:
+                case '1':
+                    clientes[cpf][2] = True  # Reativar a conta
+                    ut.mostrar_mensagem('A conta foi reativada com sucesso. Para checar os dados, vá na função -> Exibir Dados.')
+                    salvar_clientes()
+                    return 0  # Retorna 0 para indicar que a conta foi reativada
+                case '0':
+                    return cpf  # Retorna o CPF para continuar o cadastro
+        elif cpf in clientes and clientes[cpf][2]:  # Verifica se a conta já está ativa
+            ut.mostrar_mensagem('Já existe uma conta ativa com esse CPF. Por favor, informe um novo CPF.')
+            continue
+        else:
+            return cpf  # Retorna o CPF se não estiver cadastrado
                 
 carregar_clientes()
