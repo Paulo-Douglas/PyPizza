@@ -1,3 +1,4 @@
+import Funcionarios.Cardapio.ProdutosView as prov
 import Clientes.ClientesModel as clm
 import libs.insertes as ins
 import libs.utils as ut
@@ -7,7 +8,7 @@ import pickle
 
 cardapio = {}
 
-def carregar_cardapio(): 
+def carregar_cardapio(): # Função adaptada pela IA -> GPT
     global cardapio
     try:
         arq_cardapio = open("cardapio.dat", "rb")
@@ -21,7 +22,7 @@ def salvar_cardapio():
     pickle.dump(cardapio, arq_cardapio)
     arq_cardapio.close()
 
-def formatar_dados(cardapio):
+def formatar_dados(cardapio): # Função criada pela IA -> GPT
         dados_formatados = []
         for id, pizza in cardapio.items():
             if pizza[3] == False:
@@ -42,12 +43,12 @@ def formatar_dados(cardapio):
             max_linhas = max(len(linhas_nome), len(linhas_ing), len(linhas_valores))
             for i in range(max_linhas):
                 linha = '|{:^8}'.format(id if i == 0 else '')
-                nome_final = '{:^18}'.format(linhas_nome[i]) if i < len(linhas_nome) else '{:^18}'.format('')
-                ing_final = '{:^69}'.format(linhas_ing[i]) if i < len(linhas_ing) else '{:^69}'.format('')
-                valores_final = '{:^31}'.format(linhas_valores[i]) if i < len(linhas_valores) else '{:^31}'.format('')
+                nome_final = '{:^38}'.format(linhas_nome[i]) if i < len(linhas_nome) else '{:^38}'.format('')
+                ing_final = '{:^47}'.format(linhas_ing[i]) if i < len(linhas_ing) else '{:^47}'.format('')
+                valores_final = '{:^41}'.format(linhas_valores[i]) if i < len(linhas_valores) else '{:^41}'.format('')
                 linha += f'|{nome_final}|{ing_final}|{valores_final} |'
                 dados_formatados.append(linha)
-            dados_formatados.append('|--------|------------------|---------------------------------------------------------------------|--------------------------------|')  # Linha separadora
+            dados_formatados.append('|--------|--------------------------------------|-----------------------------------------------|------------------------------------------|')  # Linha separadora
         return dados_formatados
 
 def solicitar_pizza(cardapio):
@@ -59,42 +60,42 @@ def solicitar_pizza(cardapio):
             ut.mensagem_erro('Pizza não encontrada.')
             continue
 
-def editar_pizza(cardapio):
+def editar_pizza(id, cardapio):
     resposta = ['s', 'sim', 'n', 'nao', 'não']
-    id = solicitar_pizza(cardapio)
-    
-    if id in cardapio and cardapio[id][3] == True:
-        while True:
-            decisao = input('Qual dado da pizza você deseja alterar? (1: Nome, 2: Ingredientes, 3: Valores): ')
-            match decisao:
-                case '1':
-                    nome = ins.insert_name_pizza(cardapio)
-                    cardapio[id][0] = nome
-                    print('Nome da pizza alterado com sucesso.')
-                case '2':
-                    ingredientes = ins.insert_ingredientes()
-                    cardapio[id][1] = ingredientes
-                    print('Ingredientes da pizza alterados com sucesso.')
-                case '3':
-                    valores = ins.insert_value()
-                    cardapio[id][2] = valores
-                    print('Valores da pizza alterados com sucesso.')
-                case _:
-                    ut.mensagem_erro('Escolha inválida. Escolha entre: 1 para Nome, 2 para Ingredientes e 3 para Valores.')
-                    continue
+    while True:
+        decisao = input('Qual dado da pizza você deseja alterar? ')
+        match decisao:
+            case '1':
+                nome = ins.insert_name_pizza(cardapio)
+                cardapio[id][0] = nome
+                dados = formatar_dados(cardapio)
+                prov.alterar_dados2(dados)
+                print('Nome da pizza alterado com sucesso.')
+            case '2':
+                ingredientes = ins.insert_ingredientes()
+                cardapio[id][1] = ingredientes
+                dados = formatar_dados(cardapio)
+                prov.alterar_dados2(dados)
+                print('Ingredientes da pizza alterados com sucesso.')
+            case '3':
+                valores = ins.insert_value()
+                cardapio[id][2] = valores
+                dados = formatar_dados(cardapio)
+                prov.alterar_dados2(dados)
+                print('Valores da pizza alterados com sucesso.')
+            case _:
+                ut.mensagem_erro('Escolha inválida. Escolha entre: 1 para Nome, 2 para Ingredientes e 3 para Valores.')
+                continue
 
-            while True:
-                resp = input('Deseja fazer uma nova alteração nesta pizza (sim/não)? ').lower().strip()
-                if resp in resposta:
-                    if resp in ['n', 'nao', 'não']:
-                        ut.mostrar_mensagem('Alterações feitas com sucesso!!')
-                        break
-                    elif resp in ['s', 'sim']:
-                        break
-                else:
-                    ut.mensagem_erro('Resposta inválida. Responda com somente SIM ou NÃO.')
-    else:
-        ut.mostrar_mensagem('ID da pizza inválido ou pizza inativa. Por favor, informe um ID válido de uma pizza ativa.')
+        while True:
+            resp = input('Deseja fazer uma nova alteração nesta pizza (sim/não)? ').lower().strip()
+            if resp not in resposta:
+                ut.mensagem_erro('Resposta inválida. Responda com somente SIM ou NÃO.')
+                continue
+            if resp in ['n', 'nao', 'não']:
+                ut.mostrar_mensagem('Alterações feitas com sucesso!!')
+                return False
+            break
 
 def del_pizza():
     while True:
