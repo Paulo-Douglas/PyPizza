@@ -21,7 +21,7 @@ def salvar_clientes():
     pickle.dump(clientes, arq_clientes)
     arq_clientes.close()
 
-def chamar_dados(cpf, clientes): # Função adaptade pela IA -> Copilot
+def chamar_dados(cpf): # Função adaptade pela IA -> Copilot
     nome = clientes[cpf][0]
     endereco = clientes[cpf][1]
     
@@ -37,7 +37,7 @@ def chamar_dados(cpf, clientes): # Função adaptade pela IA -> Copilot
         endereco_final = linhas_endereco[i] if i < len(linhas_endereco) else ''
     return nome_final, endereco_final
 
-def alt_decisao(cpf, clientes):
+def alt_decisao(cpf):
     resposta = ['s', 'sim', 'n', 'nao', 'não']
     while True:
         decisao = input('Qual dado você deseja alterar? - Tecle 0 caso não queira fazer alteração: ')
@@ -48,7 +48,7 @@ def alt_decisao(cpf, clientes):
                 nome = ins.insert_name()
                 clientes[cpf][0] = nome
                 salvar_clientes()
-                nome, endereco = chamar_dados(cpf, clientes)
+                nome, endereco = chamar_dados(cpf)
                 clv.alterar_dados2(cpf, nome, endereco)
                 print('Nome alterado com sucesso.')
             case '2':
@@ -56,14 +56,14 @@ def alt_decisao(cpf, clientes):
                 clientes[novo_cpf] = clientes.pop(cpf)
                 cpf = novo_cpf
                 salvar_clientes()
-                nome, endereco = chamar_dados(cpf, clientes)
+                nome, endereco = chamar_dados(cpf)
                 clv.alterar_dados2(cpf, nome, endereco)
                 print('O CPF foi alterado com sucesso.')
             case '3':
                 endereco = ins.insert_address()
                 clientes[cpf][1] = endereco
                 salvar_clientes()
-                nome, endereco = chamar_dados(cpf, clientes)
+                nome, endereco = chamar_dados(cpf)
                 clv.alterar_dados2(cpf, nome, endereco)
                 print('O endereço foi alterado com sucesso.')
             case _:
@@ -80,7 +80,7 @@ def alt_decisao(cpf, clientes):
                 return False
             break
 
-def del_cliente(cpf, clientes):
+def del_cliente(cpf):
     while True:
         resp = ut.confirmacao('cliente', 'a exclusão da sua conta')
         match resp:
@@ -91,13 +91,13 @@ def del_cliente(cpf, clientes):
                     ut.mostrar_mensagem('Exclusão bem-sucedida. Até mais.')
                     break
                 else:
-                    print('CPF não encontrado. Nenhuma exclusão realizada.')
+                    ut.mensagem_erro('CPF não encontrado. Nenhuma exclusão realizada.')
             case '0':
                 break
             case _:
                 ut.mensagem_erro('Resposta informada não é válida. Escolha entre: 1 (continuar com a exclusão) e 2 (sair).')
 
-def checar_cpf(clientes):
+def checar_cpf():
     while True:
         cpf = ins.insert_cpf()
         if cpf in clientes and not clientes[cpf][2]:  # Verifica se a conta está inativa
