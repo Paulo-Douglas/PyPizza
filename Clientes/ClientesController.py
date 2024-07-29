@@ -12,7 +12,7 @@ def register_client():
         match conf:
             case '1':
                 nome = ins.insert_name()
-                cpf = clm.checar_cpf(clientes)  # Utiliza a função checar_cpf para verificar o CPF
+                cpf = clm.checar_cpf()  # Utiliza a função checar_cpf para verificar o CPF
                 if cpf == 0:  # Se checar_cpf retornar 0, significa que a conta foi reativada
                     break
                 endereco = ins.insert_address()
@@ -26,7 +26,7 @@ def register_client():
             case '0':
                 break
             case _:
-                ut.mensagem_erro('Caro usuário, a opção informada não é válida. Por favor, digite 1 para continuar com o cadastro e 0 para sair.')
+                ut.mensagem_erro('Caro usuário, a opção informada não é válida. Por favor, digite 1 para continuar com o cadastro ou 0 para sair.')
 
 def dados_exibir():
     clv.exibir_dados1()
@@ -38,7 +38,7 @@ def dados_exibir():
                 clientes = clm.clientes
                 if cpf in clientes:
                     if clientes[cpf][2] == True:
-                        nome, endereco = clm.chamar_dados(cpf, clientes)
+                        nome, endereco = clm.chamar_dados(cpf)
                         clv.dados_clientes(cpf, nome, endereco)
                         ut.mostrar_mensagem(' ')
                         break
@@ -50,7 +50,7 @@ def dados_exibir():
             case '0':
                 break
             case _:
-                ut.mensagem_erro('Caro usuário, a opção informada não é válida. Por favor, digite 1 para continuar com o cadastro e 0 para sair.')
+                ut.mensagem_erro('Caro usuário, a opção informada não é válida. Por favor, digite 1 para continuar com a exibição ou 0 para sair.')
                 continue
 
 def dados_alterar():
@@ -63,9 +63,9 @@ def dados_alterar():
                 clientes = clm.clientes
                 if cpf in clientes:
                     if clientes[cpf][2] == True:
-                        nome, endereco = clm.chamar_dados(cpf, clientes)
+                        nome, endereco = clm.chamar_dados(cpf)
                         clv.alterar_dados2(cpf, nome, endereco)
-                        if not clm.alt_decisao(cpf, clientes):
+                        if not clm.alt_decisao(cpf):
                             break
                         else:
                             clm.salvar_clientes()
@@ -78,7 +78,7 @@ def dados_alterar():
             case '0':
                 break
             case _:
-                ut.mensagem_erro('Caro usuário, a opção informada não é válida. Por favor, digite 1 para continuar com o cadastro e 0 para sair.')
+                ut.mensagem_erro('Caro usuário, a opção informada não é válida. Por favor, digite 1 para continuar com a alteração ou 0 para sair.')
 
 def cliente_excluir():
     clv.excluir_cliente()
@@ -90,9 +90,9 @@ def cliente_excluir():
                 clientes = clm.clientes
                 if cpf in clientes:
                     if clientes[cpf][2] == True:
-                        nome, endereco = clm.chamar_dados(cpf, clientes)
+                        nome, endereco = clm.chamar_dados(cpf)
                         clv.dados_clientes(cpf, nome, endereco)
-                        clm.del_cliente(cpf, clientes)
+                        clm.del_cliente(cpf)
                         ut.mostrar_mensagem('Operação de exclusão cancelada.')
                         break
                     else:
@@ -104,5 +104,5 @@ def cliente_excluir():
             case '0':
                 break
             case _:
-                ut.mensagem_erro('Caro usuário, a opção informada não é válida. Por favor, digite 1 para continuar com o cadastro e 0 para sair.')
+                ut.mensagem_erro('Caro usuário, a opção informada não é válida. Por favor, digite 1 para continuar com a exclusão ou 0 para sair.')
                 continue
