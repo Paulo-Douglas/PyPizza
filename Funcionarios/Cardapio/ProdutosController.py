@@ -1,7 +1,6 @@
 import Funcionarios.Cardapio.ProdutosModel as prom
 import Funcionarios.Cardapio.ProdutosView as prov
 import Administração.AdmModel as admm
-import Clientes.ClientesModel as clm
 import libs.insertes as ins
 import libs.utils as ut
 import libs.get as gt
@@ -15,18 +14,22 @@ def cadastrar_pizza():
                 funcionarios = admm.funcionarios
                 cpf = gt.get_cpf()
                 if cpf in funcionarios:
-                    cardapio = prom.cardapio
-                    id = str(len(cardapio) + 1)
-                    nome = ins.insert_name_pizza(cardapio)
-                    ingredientes = ins.insert_ingredientes()
-                    valores = ins.insert_value()
-                    estado = True
-                    cardapio[id] = [nome, ingredientes, valores, estado]
-                    ingredientes_formatados = '-'.join(ingredientes)
-                    prom.salvar_cardapio()
-                    print(f'ID - {id}  |   Nome - {nome}   |   Ingredientes - {ingredientes_formatados}   |   Valor P - {valores[0]}   |   Valor M - {valores[1]}  |   Valor G - {valores[2]}  |  Valor GG - {valores[3]}')
-                    ut.mostrar_mensagem('Pizza cadastrada com sucesso!')
-                    break
+                    if funcionarios[cpf][2] == 'Pizzaiolo':
+                        cardapio = prom.cardapio
+                        id = str(len(cardapio) + 1)
+                        nome = ins.insert_name_pizza(cardapio)
+                        ingredientes = ins.insert_ingredientes()
+                        valores = ins.insert_value()
+                        estado = True
+                        cardapio[id] = [nome, ingredientes, valores, estado]
+                        ingredientes_formatados = '-'.join(ingredientes)
+                        prom.salvar_cardapio()
+                        print(f'ID - {id}  |   Nome - {nome}   |   Ingredientes - {ingredientes_formatados}   |   Valor P - {valores[0]}   |   Valor M - {valores[1]}  |   Valor G - {valores[2]}  |  Valor GG - {valores[3]}')
+                        ut.mostrar_mensagem('Pizza cadastrada com sucesso!')
+                        break
+                    else:
+                        ut.mostrar_mensagem('Essa função é restrita. Somente pizzaiolos podem usá-la.')
+                        break
                 else:
                     ut.mensagem_erro('Esse CPF não é válido ou não está cadastrado como funcionário. Por Favor, informe outro CPF.')
             case '0':
@@ -47,15 +50,19 @@ def editar_pizza():
                 funcionarios = admm.funcionarios
                 cpf = gt.get_cpf()
                 if cpf in funcionarios:
-                    id = prom.solicitar_pizza(cardapio)
-                    if id in cardapio and cardapio[id][3] == True:
-                        dados = prom.formatar_dados(cardapio)
-                        prov.alterar_dados2(dados)
-                        prom.editar_pizza(id, cardapio)
-                        prom.salvar_cardapio()
-                        break
+                    if funcionarios[cpf][2] == 'Pizzaiolo':
+                        id = prom.solicitar_pizza(cardapio)
+                        if id in cardapio and cardapio[id][3] == True:
+                            dados = prom.formatar_dados(cardapio)
+                            prov.alterar_dados2(dados)
+                            prom.editar_pizza(id, cardapio)
+                            prom.salvar_cardapio()
+                            break
+                        else:
+                            ut.mostrar_mensagem('ID da pizza inválido ou pizza inativa. Por favor, informe um ID válido de uma pizza ativa.')
                     else:
-                        ut.mostrar_mensagem('ID da pizza inválido ou pizza inativa. Por favor, informe um ID válido de uma pizza ativa.')
+                        ut.mostrar_mensagem('Essa função é restrita. Somente pizzaiolos podem usá-la.')
+                        break
                 else:
                     ut.mensagem_erro('Esse CPF não é válido ou não está cadastrado como funcionário. Por Favor, informe outro CPF.')
             case '0':
@@ -70,9 +77,13 @@ def excluir_pizza():
         funcionarios = admm.funcionarios
         cpf = gt.get_cpf()
         if cpf in funcionarios:
-            dados = prom.formatar_dados(cardapio)
-            prov.exibir_cardapio(dados)
-            prom.del_pizza()
-            break
+            if funcionarios[cpf][2] == 'Pizzaiolo':
+                dados = prom.formatar_dados(cardapio)
+                prov.exibir_cardapio(dados)
+                prom.del_pizza()
+                break
+            else:
+                ut.mostrar_mensagem('Essa função é restrita. Somente pizzaiolos podem usá-la.')
+                break
         else:
             ut.mensagem_erro('Esse CPF não é válido ou não está cadastrado como funcionário. Por Favor, informe outro CPF.')
