@@ -15,6 +15,8 @@ def register_client():
                 cpf = clm.checar_cpf()  # Utiliza a função checar_cpf para verificar o CPF
                 if cpf == 0:  # Se checar_cpf retornar 0, significa que a conta foi reativada
                     break
+                if cpf is None:  # Adicionado para interromper a função se a conta já estiver ativa
+                    return
                 endereco = ins.insert_address()
                 estado = True
                 clientes[cpf] = [nome, endereco, estado]
@@ -93,7 +95,7 @@ def cliente_excluir():
                         nome, endereco = clm.chamar_dados(cpf)
                         clv.dados_clientes(cpf, nome, endereco)
                         clm.del_cliente(cpf)
-                        ut.mostrar_mensagem('Operação de exclusão cancelada.')
+                        ut.mostrar_mensagem('Exclusão bem-sucedida. Até mais.')
                         break
                     else:
                         ut.mostrar_mensagem('Esse CPF já foi excluído do nosso sistema.')
