@@ -110,7 +110,7 @@ def checar_cpf():
                     return 0  # Retorna 0 para indicar que a conta foi reativada
                 case '0':
                     return cpf  # Retorna o CPF para continuar o cadastro
-        elif cpf in clientes and clientes[cpf][2]:  # Verifica se a conta já está ativa
+        elif cpf in clientes and clientes[cpf][2]: 
             ut.mostrar_mensagem('Já existe uma conta ativa com esse CPF. Por favor, informe um novo CPF.')
             return None  # Adicionado retorno None para indicar que a conta está ativa
         else:
