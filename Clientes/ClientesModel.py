@@ -26,7 +26,7 @@ def chamar_dados(cpf): # Função adaptade pela IA -> Copilot
     endereco = clientes[cpf][1]
     
     nome_quebrado = textwrap.fill(nome, width=45)
-    endereco_quebrado = textwrap.fill(endereco, width=64)
+    endereco_quebrado = textwrap.fill(endereco, width=60)
     
     linhas_nome = nome_quebrado.split('\n')
     linhas_endereco = endereco_quebrado.split('\n')
@@ -88,10 +88,10 @@ def del_cliente(cpf):
                 if cpf in clientes:
                     clientes[cpf][2] = False
                     salvar_clientes()
-                    ut.mostrar_mensagem('Exclusão bem-sucedida. Até mais.')
                     break
                 else:
                     ut.mensagem_erro('CPF não encontrado. Nenhuma exclusão realizada.')
+                    break
             case '0':
                 break
             case _:
@@ -110,10 +110,10 @@ def checar_cpf():
                     return 0  # Retorna 0 para indicar que a conta foi reativada
                 case '0':
                     return cpf  # Retorna o CPF para continuar o cadastro
-        elif cpf in clientes and clientes[cpf][2]:  # Verifica se a conta já está ativa
+        elif cpf in clientes and clientes[cpf][2]: 
             ut.mostrar_mensagem('Já existe uma conta ativa com esse CPF. Por favor, informe um novo CPF.')
-            continue
+            return None  # Adicionado retorno None para indicar que a conta está ativa
         else:
-            return cpf  # Retorna o CPF se não estiver cadastrado
+            return cpf
                 
 carregar_clientes()
